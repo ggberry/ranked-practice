@@ -1,0 +1,40 @@
+{
+  "required": true,
+  "package": "me.gege.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PlayerEntityMixin",
+    "ServerPlayerEntityMixin",
+    "Test",
+    "rng.DrownedEntityMixin",
+    "rng.ElderGuardianEntityMixin",
+    "rng.EyeOfEnderEntityMixin",
+    "rng.GhastEntityMixin",
+    "rng.LivingEntityMixin",
+    "rng.PiglinBrainMixin",
+    "rng.PortalForcerMixin",
+    "rng.SpawnHelperMixin",
+    "screen.EventFactoryMixin",
+    "seed.BlockAgeStructureProcessorMixin",
+    "seed.ChunkRandomMixin",
+    "seed.DefaultBiomeFeaturesMixin",
+    "seed.DimensionTypeMixin",
+    "seed.DungeonFeatureMixin",
+    "seed.LootTableMixin",
+    "seed.SetStewEffectLootFunctionMixin",
+    "seed.StructureFeatureMixin",
+    "seed.StructureStartMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "client": [
+    "screen.GameMenuScreenMixin",
+    "screen.LevelLoadingScreenMixin",
+    "screen.TitleScreenMixin",
+    "seed.MinecraftClientMixin"
+  ]
+}

@@ -31,7 +31,7 @@ public class SeedUtil extends ChunkRandom {
 
     public static boolean isPracticing = false;
     public static int seedType;
-    public static long overworldSeed = 0;
+    public static long overworldSeed;
     public static long netherSeed;
     public static ChunkPos sourcePos;
 
@@ -75,11 +75,6 @@ public class SeedUtil extends ChunkRandom {
                 enters++;
             }
         }
-    }
-
-    public static boolean isOceanBiome(BiomeSource biomeSource, int blockX, int blockZ) {
-        Biome biome = biomeSource.getBiomeForNoiseGen(blockX >> 2, 0, blockZ >> 2);
-        return biome.getCategory() == Biome.Category.OCEAN;
     }
 
     public static boolean isOceanSeed() {

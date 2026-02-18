@@ -20,6 +20,10 @@ import java.util.Random;
 import static me.gege.util.SeedUtil.isPracticing;
 import static me.gege.util.SeedUtil.sourcePos;
 
+/**
+ * Prevents Mineshaft obstruction for mapless
+ */
+
 @Mixin(StructureStart.class)
 public abstract class StructureStartMixin {
     @Shadow @Final private StructureFeature<?> feature;

@@ -13,6 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
 
+/**
+ * Prevents Ghasts from spawning within 5 chunks of the player
+ */
+
 @Mixin(GhastEntity.class)
 public abstract class GhastEntityMixin {
     @Inject(at = @At("HEAD"), method = "canSpawn", cancellable = true)

@@ -6,6 +6,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Stops Fabric API from changing the Pie Chart
+ */
+
 @Mixin(EventFactory.class)
 public abstract class EventFactoryMixin {
     @Inject(at = @At("RETURN"), method = "isProfilingEnabled", cancellable = true)

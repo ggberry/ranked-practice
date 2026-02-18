@@ -11,6 +11,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Prevents Drowned from spawning with tridents
+ */
+
 @Mixin(DrownedEntity.class)
 public abstract class DrownedEntityMixin extends Entity {
     public DrownedEntityMixin(EntityType<?> type, World world) {

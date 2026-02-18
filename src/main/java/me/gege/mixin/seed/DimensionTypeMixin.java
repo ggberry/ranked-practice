@@ -9,6 +9,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Sets nether terrain according to custom nether seed
+ */
+
 @Mixin(DimensionType.class)
 public abstract class DimensionTypeMixin {
     @Inject(at = @At("HEAD"), method = "createNetherGenerator", cancellable = true)

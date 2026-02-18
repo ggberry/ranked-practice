@@ -7,6 +7,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Prevents mining fatigue from Elder Guardians
+ */
+
 @Mixin(ElderGuardianEntity.class)
 public abstract class ElderGuardianEntityMixin {
     @Inject(at = @At("HEAD"), method = "mobTick", cancellable = true)

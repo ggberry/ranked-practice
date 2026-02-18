@@ -18,6 +18,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Removes Multiplayer & Realm options and replaces them with Practice.
+ */
+
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
     private static final Identifier RANKED_SETTINGS_LOCATION = new Identifier(RankedPractice.MOD_ID, "textures/gui/ranked_settings.png");

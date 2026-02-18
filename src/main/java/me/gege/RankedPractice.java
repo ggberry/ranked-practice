@@ -2,7 +2,7 @@ package me.gege;
 
 import me.gege.config.ConfigManager;
 import me.gege.event.ModEvents;
-import me.gege.seed.util.SeedManager;
+import me.gege.seed.SeedManager;
 import me.gege.worldgen.ModCarvers;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +16,7 @@ public class RankedPractice implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		SeedManager.loadSeedsFromGist();
+		SeedManager.warmUp();
 		ConfigManager.load();
 
 		ModEvents.registerEvents();

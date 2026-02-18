@@ -21,6 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.gege.util.SeedUtil.isPracticing;
 
+/**
+ * Replaces buttons in Pause Menu for more useful ones
+ */
+
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin extends Screen {
     protected GameMenuScreenMixin(Text title) {

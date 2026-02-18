@@ -13,6 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static me.gege.util.SeedUtil.isPracticing;
 import static me.gege.util.SeedUtil.seedType;
 
+/**
+ * Display seed type in loading screen
+ */
+
 @Mixin(LevelLoadingScreen.class)
 public abstract class LevelLoadingScreenMixin extends Screen {
     protected LevelLoadingScreenMixin(Text title) {

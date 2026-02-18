@@ -18,6 +18,10 @@ import java.util.Random;
 import static me.gege.util.SeedUtil.isPracticing;
 import static me.gege.util.SeedUtil.sourcePos;
 
+/**
+ * Prevents Dungeon obstruction for mapless
+ */
+
 @Mixin(DungeonFeature.class)
 public abstract class DungeonFeatureMixin {
     @Inject(at = @At("HEAD"), method = "generate(Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/chunk/ChunkGenerator;Ljava/util/Random;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/gen/feature/DefaultFeatureConfig;)Z", cancellable = true)

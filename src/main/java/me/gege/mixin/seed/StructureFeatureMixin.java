@@ -17,6 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static me.gege.util.SeedUtil.*;
 
+/**
+ * Prevents Shipwreck and Ruined Portals obstruction for mapless
+ */
+
 @Mixin(StructureFeature.class)
 public abstract class StructureFeatureMixin {
     @Shadow public abstract ConfiguredStructureFeature<FeatureConfig, ? extends StructureFeature<FeatureConfig>> configure(FeatureConfig config);

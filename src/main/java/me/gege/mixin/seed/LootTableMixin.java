@@ -1,6 +1,6 @@
 package me.gege.mixin.seed;
 
-import me.gege.seed.util.RuinedPortalHelper;
+import me.gege.seed.RuinedPortalHelper;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContext;
@@ -11,6 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.gege.util.SeedUtil.isPracticing;
 import static me.gege.util.SeedUtil.seedType;
+
+/**
+ * Artificially boosts loot in Ruined Portal seed types
+ */
 
 @Mixin(LootTable.class)
 public abstract class LootTableMixin {

@@ -2,6 +2,18 @@ package me.gege.data;
 
 import java.util.List;
 
+/**
+ * Utility functions for player NBT data
+ * <p>
+ * Tracks:
+ * - Bartered gold
+ * - Eyes thrown
+ * - Portals generated
+ * - Obsidian pity
+ * - Ender pearl pity
+ * </p>
+ */
+
 public interface PlayerEntityData {
     void addBarteredGold();
     int getBarteredGold();

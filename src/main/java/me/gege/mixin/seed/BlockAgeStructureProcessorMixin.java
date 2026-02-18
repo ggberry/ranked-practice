@@ -21,6 +21,10 @@ import java.util.Random;
 
 import static me.gege.util.SeedUtil.isPracticing;
 
+/**
+ * Prevents Crying Obsidian obstruction on Normal Ruined Portal seed types
+ */
+
 @Mixin(BlockAgeStructureProcessor.class)
 public abstract class BlockAgeStructureProcessorMixin {
     @Shadow @Nullable protected abstract BlockState processBlocks(Random random);
@@ -52,7 +56,7 @@ public abstract class BlockAgeStructureProcessorMixin {
             blockState2 = this.processSlabs(random);
         } else if (blockState.isIn(BlockTags.WALLS)) {
             blockState2 = this.processWalls(random);
-        } else if (blockState.isOf(Blocks.OBSIDIAN) && !(worldView.getDimension() == DimensionType.OVERWORLD && (SeedUtil.seedType == 4 || SeedUtil.seedType == 5))) {
+        } else if (blockState.isOf(Blocks.OBSIDIAN) && !(worldView.getDimension() == DimensionType.OVERWORLD && (SeedUtil.seedType == 4))) {
             blockState2 = this.processObsidian(random);
         }
 

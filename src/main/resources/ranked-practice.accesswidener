@@ -1,24 +1,6 @@
 accessWidener v2 named
 
-accessible method net/minecraft/structure/StructureStart setBoundingBoxFromChildren ()V
-accessible field net/minecraft/world/dimension/DimensionType THE_NETHER Lnet/minecraft/world/dimension/DimensionType;
-accessible method net/minecraft/world/gen/feature/StructureFeature method_28656 (IILnet/minecraft/util/math/BlockBox;IJ)Lnet/minecraft/structure/StructureStart;
-accessible field net/minecraft/world/biome/source/BiomeSource structureFeatures Ljava/util/Map;
-accessible method net/minecraft/world/gen/feature/StructureFeature shouldStartAt (Lnet/minecraft/world/gen/chunk/ChunkGenerator;Lnet/minecraft/world/biome/source/BiomeSource;JLnet/minecraft/world/gen/ChunkRandom;IILnet/minecraft/world/biome/Biome;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/world/gen/feature/FeatureConfig;)Z
-accessible method net/minecraft/client/gui/screen/world/CreateWorldScreen createLevel ()V
-accessible field net/minecraft/client/gui/screen/Screen client Lnet/minecraft/client/MinecraftClient;
-accessible field net/minecraft/client/MinecraftClient isIntegratedServerRunning Z
-accessible field net/minecraft/world/biome/Biome structureFeatures Ljava/util/Map;
-accessible field net/minecraft/world/chunk/WorldChunk heightmaps Ljava/util/Map;
-accessible field net/minecraft/server/MinecraftServer worldGenerationProgressListenerFactory Lnet/minecraft/server/WorldGenerationProgressListenerFactory;
-accessible field net/minecraft/server/MinecraftServer session Lnet/minecraft/world/level/storage/LevelStorage$Session;
-accessible method net/minecraft/server/network/SpawnLocating findOverworldSpawn (Lnet/minecraft/server/world/ServerWorld;IIZ)Lnet/minecraft/util/math/BlockPos;
-accessible method net/minecraft/server/MinecraftServer setupSpawn (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/world/level/ServerWorldProperties;ZZZ)V
 accessible field net/minecraft/world/dimension/DimensionType OVERWORLD Lnet/minecraft/world/dimension/DimensionType;
-accessible method net/minecraft/server/MinecraftServer setServerId (Ljava/lang/String;)V
+accessible field net/minecraft/world/dimension/DimensionType THE_NETHER Lnet/minecraft/world/dimension/DimensionType;
 accessible method net/minecraft/loot/LootTable getFreeSlots (Lnet/minecraft/inventory/Inventory;Ljava/util/Random;)Ljava/util/List;
 accessible method net/minecraft/loot/LootTable shuffle (Ljava/util/List;ILjava/util/Random;)V
-accessible method net/minecraft/world/gen/carver/UnderwaterRavineCarver carveAtPoint (Lnet/minecraft/world/chunk/Chunk;Ljava/util/function/Function;Ljava/util/BitSet;Ljava/util/Random;Lnet/minecraft/util/math/BlockPos$Mutable;Lnet/minecraft/util/math/BlockPos$Mutable;Lnet/minecraft/util/math/BlockPos$Mutable;IIIIIIIILorg/apache/commons/lang3/mutable/MutableBoolean;)Z
-accessible method net/minecraft/world/gen/carver/Carver canAlwaysCarveBlock (Lnet/minecraft/block/BlockState;)Z
-accessible method net/minecraft/world/gen/carver/RavineCarver carveRavine (Lnet/minecraft/world/chunk/Chunk;Ljava/util/function/Function;JIIIDDDFFFIIDLjava/util/BitSet;)V
-accessible method net/minecraft/world/gen/carver/UnderwaterCaveCarver carveAtPoint (Lnet/minecraft/world/gen/carver/Carver;Lnet/minecraft/world/chunk/Chunk;Ljava/util/BitSet;Ljava/util/Random;Lnet/minecraft/util/math/BlockPos$Mutable;IIIIIIII)Z

@@ -15,6 +15,10 @@ import java.util.List;
 
 import static me.gege.util.SeedUtil.isPracticing;
 
+/**
+ * Guarantees Ender Pearl and Obsidian trades from Piglins based on the MCSR Ranked trade pity system
+ */
+
 @Mixin(PiglinBrain.class)
 public abstract class PiglinBrainMixin {
     @Inject(at = @At("TAIL"), method = "getBarteredItem", cancellable = true)

@@ -1,6 +1,6 @@
 package me.gege.util;
 
-import me.gege.seed.util.SeedManager;
+import me.gege.seed.SeedManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;

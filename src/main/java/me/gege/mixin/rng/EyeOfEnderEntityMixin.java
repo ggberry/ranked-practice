@@ -14,6 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.gege.util.SeedUtil.isPracticing;
 
+/**
+ * Guarantees that second eye thrown never breaks
+ */
+
 @Mixin(EyeOfEnderEntity.class)
 public abstract class EyeOfEnderEntityMixin extends Entity {
     @Shadow private boolean dropsItem;

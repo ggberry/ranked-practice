@@ -22,6 +22,10 @@ import java.util.Random;
 
 import static me.gege.util.SeedUtil.isPracticing;
 
+/**
+ * Prevents Poison status effect for Suspicious Stews
+ */
+
 @Mixin(SetStewEffectLootFunction.class)
 public abstract class SetStewEffectLootFunctionMixin {
     @Shadow @Final private Map<StatusEffect, UniformLootTableRange> effects;

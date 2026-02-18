@@ -13,6 +13,10 @@ import java.util.Random;
 import static me.gege.util.SeedUtil.isPracticing;
 import static me.gege.util.SeedUtil.netherSeed;
 
+/**
+ * Allows nether seed to be separated from overworld seed
+ */
+
 @Mixin(ChunkRandom.class)
 public abstract class ChunkRandomMixin extends Random {
     @Inject(at = @At("HEAD"), method = "setPopulationSeed", cancellable = true)

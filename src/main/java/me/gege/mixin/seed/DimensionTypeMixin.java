@@ -17,10 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class DimensionTypeMixin {
     @Inject(at = @At("HEAD"), method = "createNetherGenerator", cancellable = true)
     private static void createNetherGenerator(long seed, CallbackInfoReturnable<ChunkGenerator> cir) {
-        if (RankedPractice.DEVELOPING) {
-            return;
-        }
-
         SeedUtil.setNetherTerrain(cir);
     }
 }

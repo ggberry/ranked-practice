@@ -1,5 +1,6 @@
 package me.gege.mixin.screen;
 
+import me.gege.screen.ConfigScreen;
 import me.gege.screen.SaveConfirmScreen;
 import me.gege.util.WorldUtil;
 import net.minecraft.SharedConstants;
@@ -10,6 +11,7 @@ import net.minecraft.client.gui.screen.StatsScreen;
 import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
 import net.minecraft.client.gui.screen.options.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -19,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static me.gege.util.GeneralUtil.RANKED_SETTINGS_LOCATION;
 import static me.gege.util.SeedUtil.isPracticing;
 
 /**
@@ -111,6 +114,23 @@ public abstract class GameMenuScreenMixin extends Screen {
                         buttonWidgetx -> {
                             WorldUtil.createWorldInGame();
                         }
+                )
+        );
+
+        this.addButton(
+                new TexturedButtonWidget(
+                        10,
+                        this.height - 30,
+                        20,
+                        20,
+                        0,
+                        0,
+                        20,
+                        RANKED_SETTINGS_LOCATION,
+                        20,
+                        40,
+                        widget -> this.client.openScreen(new ConfigScreen(this.client.currentScreen)),
+                        new LiteralText("Ranked Configurations")
                 )
         );
 

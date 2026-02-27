@@ -34,7 +34,7 @@ public abstract class StructureStartMixin {
             return;
         }
 
-        if (!SeedUtil.isOceanSeed() || this.feature != StructureFeature.MINESHAFT) {
+        if (SeedUtil.notOceanSeed() || this.feature != StructureFeature.MINESHAFT) {
             return;
         }
 

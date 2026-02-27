@@ -14,7 +14,7 @@ import static me.gege.util.SeedUtil.isPracticing;
 import static me.gege.util.SeedUtil.seedType;
 
 /**
- * Display seed type in loading screen
+ * Display seed type in loading widget
  */
 
 @Mixin(LevelLoadingScreen.class)

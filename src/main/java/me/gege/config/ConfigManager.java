@@ -28,7 +28,7 @@ public class ConfigManager {
             try (Reader reader = Files.newBufferedReader(CONFIG_PATH)) {
                 CONFIGS = GSON.fromJson(reader, ModConfigs.class);
             } catch (IOException e) {
-                RankedPractice.LOGGER.error("Unable to load Ranked Configs");
+                RankedPractice.LOGGER.error("Unable to load Ranked BarterConfigs");
             }
         } else {
             save();
@@ -41,7 +41,7 @@ public class ConfigManager {
         try (Writer writer = Files.newBufferedWriter(CONFIG_PATH)) {
             GSON.toJson(CONFIGS, writer);
         } catch (IOException e) {
-            RankedPractice.LOGGER.error("Unable to save Ranked Configs");
+            RankedPractice.LOGGER.error("Unable to save Ranked BarterConfigs");
         }
     }
 }

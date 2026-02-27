@@ -2,7 +2,7 @@ package me.gege.mixin;
 
 import me.gege.RankedPractice;
 import me.gege.data.PlayerEntityData;
-import me.gege.util.Configs;
+import me.gege.config.BarterConfigs;
 import me.gege.util.GeneralUtil;
 import me.gege.util.SeedUtil;
 import net.minecraft.entity.Entity;
@@ -28,8 +28,8 @@ public abstract class PlayerEntityMixin extends Entity implements PlayerEntityDa
     private int eyesThrown;
     private int portals;
     private List<Integer> pityList = GeneralUtil.generatePityList();
-    private List<Integer> obsidianPity = new ArrayList<>(pityList.subList(0, Configs.OBSIDIAN_PITY));
-    private List<Integer> pearlPity = new ArrayList<>(pityList.subList(Configs.OBSIDIAN_PITY, pityList.size()));
+    private List<Integer> obsidianPity = new ArrayList<>(pityList.subList(0, BarterConfigs.OBSIDIAN_PITY));
+    private List<Integer> pearlPity = new ArrayList<>(pityList.subList(BarterConfigs.OBSIDIAN_PITY, pityList.size()));
 
     private static final String goldBarteredKey;
     private static final String eyesThrownKey;

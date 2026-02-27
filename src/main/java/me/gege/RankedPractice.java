@@ -2,7 +2,7 @@ package me.gege;
 
 import me.gege.config.ConfigManager;
 import me.gege.event.ModEvents;
-import me.gege.seed.SeedManager;
+import me.gege.timer.ModTimer;
 import me.gege.worldgen.ModCarvers;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -12,13 +12,12 @@ public class RankedPractice implements ModInitializer {
 	private static final String LOGGER_NAME = "Ranked Practice";
 	public static final String MOD_ID = "ranked-practice";
 	public static final Logger LOGGER = LogManager.getLogger(LOGGER_NAME);
-	public static final boolean DEVELOPING = false;
 
 	@Override
 	public void onInitialize() {
-		SeedManager.warmUp();
 		ConfigManager.load();
 
+		ModTimer.initializeTimer();
 		ModEvents.registerEvents();
 		ModCarvers.registerCarvers();
 

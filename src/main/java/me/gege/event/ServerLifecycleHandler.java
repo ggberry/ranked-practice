@@ -5,8 +5,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 
-import static me.gege.util.SeedUtil.isOceanSeed;
-import static me.gege.util.SeedUtil.isPracticing;
+import static me.gege.util.SeedUtil.*;
 
 public class ServerLifecycleHandler implements ServerLifecycleEvents.ServerStarted {
     @Override
@@ -17,7 +16,7 @@ public class ServerLifecycleHandler implements ServerLifecycleEvents.ServerStart
 
         ServerWorld world = server.getOverworld();
 
-        if (!isOceanSeed()) {
+        if (notOceanSeed() && seedType < 4) {
             SeedUtil.generateLavaPools(world);
         }
     }

@@ -31,7 +31,7 @@ public abstract class StructureFeatureMixin {
             return;
         }
 
-        if (!SeedUtil.isOceanSeed()) {
+        if (SeedUtil.notOceanSeed()) {
             return;
         }
 

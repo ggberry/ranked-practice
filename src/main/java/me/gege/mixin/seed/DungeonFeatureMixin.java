@@ -30,7 +30,7 @@ public abstract class DungeonFeatureMixin {
             return;
         }
 
-        if (!SeedUtil.isOceanSeed()) {
+        if (SeedUtil.notOceanSeed()) {
             return;
         }
 

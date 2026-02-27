@@ -18,7 +18,7 @@ import java.util.function.Function;
 import static me.gege.util.SeedUtil.*;
 
 public class RankedRavineCarver extends UnderwaterRavineCarver {
-    public static final ProbabilityConfig config = new ProbabilityConfig(0.05F);
+    public static final ProbabilityConfig config = new ProbabilityConfig(1F);
     private static final int RADIUS = 10;
 
     public RankedRavineCarver(Codec<ProbabilityConfig> codec) {
@@ -35,25 +35,28 @@ public class RankedRavineCarver extends UnderwaterRavineCarver {
             return false;
         }
 
-        int dx = sourcePos.x - chunkX;
-        int dz = sourcePos.z - chunkZ;
-        int squareDist = dx * dx + dz * dz;
-
-        boolean randomCap = random.nextFloat() < probabilityConfig.probability;
-        boolean goodDistance = squareDist <= RADIUS * RADIUS;
-
-        return randomCap && goodDistance && allowRavine(chunkX, chunkZ);
+        return allowRavine(chunkX, chunkZ);
     }
 
     public boolean allowRavine(int chunkX, int chunkZ) {
         ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
+        Random random = new Random(overworldSeed);
+        int ravineSeparation = random.nextInt(2 * RADIUS - 4);
 
         if (magmaRavines.contains(chunkPos)) {
             return true;
         }
 
+        if (getSquareDist(sourcePos.x, sourcePos.z, chunkX, chunkZ) >= RADIUS * RADIUS) {
+            return false;
+        }
+
+        if (magmaRavines.size() == 1 && getSquareDist(magmaRavines.get(0).x, magmaRavines.get(0).z, chunkX, chunkZ) < ravineSeparation * ravineSeparation) {
+            return false;
+        }
+
         if (magmaRavines.size() < 2) {
-            System.out.println(chunkPos);
+            System.out.println(chunkPos + " " + ravineSeparation);
             magmaRavines.add(chunkPos);
             return true;
         }
@@ -61,21 +64,12 @@ public class RankedRavineCarver extends UnderwaterRavineCarver {
         return false;
     }
 
-//    public boolean allowRavine(int chunkX, int chunkZ, int centerX, int centerZ) {
-//        long salt = 987654321L;
-//        Random rand = new Random(overworldSeed + salt);
-//
-//        for (int i = 0; i < 2; i++) {
-//            int x = centerX + rand.nextInt(RADIUS * 2 + 1) - RADIUS;
-//            int z = centerZ + rand.nextInt(RADIUS * 2 + 1) - RADIUS;
-//
-//            if (x == chunkX && z == chunkZ) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
+    private int getSquareDist(int x1, int z1, int x2, int z2) {
+        int dx = x1 - x2;
+        int dz = z1 - z2;
+
+        return dx * dx + dz * dz;
+    }
 
     @Override
     protected boolean carveRegion(Chunk chunk, Function<BlockPos, Biome> posToBiome, long seed, int seaLevel, int chunkX, int chunkZ, double startX, double startY, double startZ, double yaw, double pitch, BitSet carvingMask) {

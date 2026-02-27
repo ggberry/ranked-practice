@@ -29,6 +29,7 @@
 		"fabricloader": ">=0.18.1",
 		"minecraft": "~1.16.1",
 		"java": ">=8",
+		"speedrunigt": ">=7.0",
 		"fabric": "*"
 	},
 	"suggests": {

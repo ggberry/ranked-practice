@@ -21,10 +21,6 @@ import static me.gege.util.SeedUtil.netherSeed;
 public abstract class ChunkRandomMixin extends Random {
     @Inject(at = @At("HEAD"), method = "setPopulationSeed", cancellable = true)
     private void setPopulationSeed(long worldSeed, int blockX, int blockZ, CallbackInfoReturnable<Long> cir) {
-        if (RankedPractice.DEVELOPING) {
-            return;
-        }
-
         if (!isPracticing) {
             return;
         }
@@ -45,10 +41,6 @@ public abstract class ChunkRandomMixin extends Random {
 
     @Inject(at = @At("HEAD"), method = "setCarverSeed", cancellable = true)
     private void setCarverSeed(long worldSeed, int chunkX, int chunkZ, CallbackInfoReturnable<Long> cir) {
-        if (RankedPractice.DEVELOPING) {
-            return;
-        }
-
         if (!isPracticing) {
             return;
         }
@@ -69,10 +61,6 @@ public abstract class ChunkRandomMixin extends Random {
 
     @Inject(at = @At("HEAD"), method = "setRegionSeed", cancellable = true)
     private void setRegionSeed(long worldSeed, int regionX, int regionZ, int salt, CallbackInfoReturnable<Long> cir) {
-        if (RankedPractice.DEVELOPING) {
-            return;
-        }
-
         if (!isPracticing) {
             return;
         }

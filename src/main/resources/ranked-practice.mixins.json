@@ -5,7 +5,7 @@
   "mixins": [
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
-    "Test",
+    "misc.CreditsScreenMixin",
     "rng.DrownedEntityMixin",
     "rng.ElderGuardianEntityMixin",
     "rng.EyeOfEnderEntityMixin",

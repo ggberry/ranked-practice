@@ -1,12 +1,13 @@
 package me.gege.util;
 
+import me.gege.config.ConfigManager;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -18,10 +19,13 @@ import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 public class SeedUtil extends ChunkRandom {
+    private static final HashMap<String, String> seedTypes;
+
     private static final ConfiguredFeature<?, ?> LAVA_POOL_FEATURE =
             Feature.LAKE.configure(
                     new SingleStateFeatureConfig(Blocks.LAVA.getDefaultState())
@@ -77,8 +81,8 @@ public class SeedUtil extends ChunkRandom {
         }
     }
 
-    public static boolean isOceanSeed() {
-        return seedType == 1 || seedType == 2;
+    public static boolean notOceanSeed() {
+        return seedType != 1 && seedType != 2;
     }
 
     public static ChunkPos randomChunkInRing(Random random, ChunkPos center, int minRadius, int maxRadius) {
@@ -103,6 +107,46 @@ public class SeedUtil extends ChunkRandom {
         cir.setReturnValue(new SurfaceChunkGenerator(MultiNoiseBiomeSource.Preset.NETHER.getBiomeSource(netherSeed), netherSeed, ChunkGeneratorType.Preset.NETHER.getChunkGeneratorType()));
     }
 
+    public static void updateSeedButton(ButtonWidget buttonWidget) {
+        String current = buttonWidget.getMessage().getString().split(": ")[1];
+        Object[] keySet = seedTypes.keySet().toArray();
+        String newKey = "Random";
+
+        for (int i = 0; i < keySet.length; i++) {
+            if (keySet[i].equals(current)) {
+                int checkIndex = i == keySet.length - 1 ? 0 : i + 1;
+                newKey = keySet[checkIndex].toString();
+
+                break;
+            }
+        }
+
+        ConfigManager.CONFIGS.seedType = seedTypes.get(newKey);
+        ConfigManager.save();
+
+        buttonWidget.setMessage(new LiteralText("Seed Type: " + newKey));
+    }
+
+    public static String portalCheck(String seedType) {
+        if (seedType.equals("portal")) {
+            Random random = new Random();
+            String prefix = random.nextFloat() <= 0.5f ? "normal_" : "bucket_";
+            seedType = prefix + seedType;
+        }
+
+        return seedType;
+    }
+
+    public static String formattedFromType(String value) {
+        for (String key: seedTypes.keySet()) {
+            if (seedTypes.get(key).equals(value)) {
+                return key;
+            }
+        }
+
+        return "Random";
+    }
+
     public static String nameFromType(int seedType) {
         switch (seedType) {
             case 0:
@@ -116,5 +160,16 @@ public class SeedUtil extends ChunkRandom {
         }
 
         return "Ruined Portal";
+    }
+
+    static {
+        seedTypes = new HashMap<String, String>() {{
+            put("Random", "random");
+            put("Village", "village");
+            put("Shipwreck", "shipwreck");
+            put("Buried Treasure", "treasure");
+            put("Desert Temple", "temple");
+            put("Ruined Portal", "portal");
+        }};
     }
 }

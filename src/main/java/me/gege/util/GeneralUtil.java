@@ -1,25 +1,30 @@
 package me.gege.util;
 
+import me.gege.RankedPractice;
+import me.gege.config.BarterConfigs;
 import me.gege.data.PlayerEntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GeneralUtil {
+    public static final Identifier RANKED_SETTINGS_LOCATION = new Identifier(RankedPractice.MOD_ID, "textures/gui/ranked_settings.png");
+
     public static List<Integer> generatePityList() {
         Random random = new Random();
         Set<Integer> usedPity = new HashSet<>();
         List<Integer> result = new ArrayList<>();
 
-        for (int i = 0; i < Configs.PEAL_PITY + Configs.OBSIDIAN_PITY; i++) {
-            int pityNumber = random.nextInt(Configs.BARTER_PITY) + 1;
+        for (int i = 0; i < BarterConfigs.PEAL_PITY + BarterConfigs.OBSIDIAN_PITY; i++) {
+            int pityNumber = random.nextInt(BarterConfigs.BARTER_PITY) + 1;
 
             while (usedPity.contains(pityNumber)) {
-                pityNumber = random.nextInt(Configs.BARTER_PITY) + 1;
+                pityNumber = random.nextInt(BarterConfigs.BARTER_PITY) + 1;
             }
 
             result.add(pityNumber);

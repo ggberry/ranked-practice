@@ -9,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
-import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorType;
 import net.minecraft.world.gen.chunk.SurfaceChunkGenerator;
@@ -23,7 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class SeedUtil extends ChunkRandom {
+import static me.gege.util.SeedUtil.notOceanSeed;
+
+public class SeedUtil {
     private static final HashMap<String, String> seedTypes;
 
     private static final ConfiguredFeature<?, ?> LAVA_POOL_FEATURE =
@@ -44,6 +45,10 @@ public class SeedUtil extends ChunkRandom {
 
     public static void generateLavaPools(ServerWorld world) {
         if (sourcePos == null) {
+            return;
+        }
+
+        if (!notOceanSeed() || seedType >= 4) {
             return;
         }
 

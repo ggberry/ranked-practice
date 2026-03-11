@@ -1,5 +1,6 @@
 package me.gege.event;
 
+import me.gege.util.DragonUtil;
 import me.gege.util.SeedUtil;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
@@ -16,8 +17,6 @@ public class ServerLifecycleHandler implements ServerLifecycleEvents.ServerStart
 
         ServerWorld world = server.getOverworld();
 
-        if (notOceanSeed() && seedType < 4) {
-            SeedUtil.generateLavaPools(world);
-        }
+        SeedUtil.generateLavaPools(world);
     }
 }

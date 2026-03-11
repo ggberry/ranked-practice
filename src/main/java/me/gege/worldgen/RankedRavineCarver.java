@@ -56,7 +56,6 @@ public class RankedRavineCarver extends UnderwaterRavineCarver {
         }
 
         if (magmaRavines.size() < 2) {
-            System.out.println(chunkPos + " " + ravineSeparation);
             magmaRavines.add(chunkPos);
             return true;
         }

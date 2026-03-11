@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import me.gege.RankedPractice;
 import me.gege.config.ConfigManager;
+import me.gege.util.DragonUtil;
 import net.minecraft.util.math.ChunkPos;
 
 import java.io.BufferedReader;
@@ -33,6 +34,8 @@ public class SeedManager {
         int overworldChunkZ = overworldInfo.get("chunkZ").getAsInt();
 
         long newNetherSeed = netherInfo.get("seed").getAsLong();
+
+        DragonUtil.init();
 
         magmaRavines.clear();
         inNether = false;

@@ -5,6 +5,7 @@
   "mixins": [
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
+    "command.SeedCommandMixin",
     "misc.CreditsScreenMixin",
     "rng.DrownedEntityMixin",
     "rng.ElderGuardianEntityMixin",
@@ -23,7 +24,9 @@
     "seed.LootTableMixin",
     "seed.SetStewEffectLootFunctionMixin",
     "seed.StructureFeatureMixin",
-    "seed.StructureStartMixin"
+    "seed.StructureStartMixin",
+    "wip.EnderDragonEntityMixin",
+    "wip.HoldingPatternPhaseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,5 +1,6 @@
 package me.gege.screen;
 
+import me.gege.screen.widget.ConfirmButtonWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -14,9 +15,8 @@ import net.minecraft.text.TranslatableText;
 import static me.gege.util.SeedUtil.isPracticing;
 
 public class SaveConfirmScreen extends Screen {
-    private static ButtonWidget confirmButton = new ButtonWidget(0, 0, 0, 0, new LiteralText(""), null);
-    private static final int maxAge = 40;
-    private static int age = 0;
+    private static final MinecraftClient client = MinecraftClient.getInstance();
+    private static final ConfirmButtonWidget confirmButton = new ConfirmButtonWidget(1000, "Confirm", SaveConfirmScreen::saveAndQuit);
 
     public SaveConfirmScreen() {
         super(new LiteralText("Are You Sure?"));
@@ -24,15 +24,11 @@ public class SaveConfirmScreen extends Screen {
 
     @Override
     protected void init() {
-        age = 0;
-
-        confirmButton = new ButtonWidget(
+        confirmButton.init(
                 width / 2 - 102,
                 height / 4 + 72 + 32,
                 98,
-                20,
-                new LiteralText(""),
-                widget -> saveAndQuit(client, widget)
+                20
         );
 
         this.addButton(confirmButton);
@@ -45,7 +41,7 @@ public class SaveConfirmScreen extends Screen {
                         20,
                         new LiteralText("Cancel"),
                         buttonWidgetx -> {
-                            this.client.openScreen(null);
+                            client.openScreen(null);
                         }
                 )
         );
@@ -59,61 +55,16 @@ public class SaveConfirmScreen extends Screen {
         super.render(matrices, mouseX, mouseY, delta);
     }
 
-    @Override
-    public void tick() {
-        updateConfirmButton(client, this.width, this.height);
-
-        super.tick();
-    }
-
-    private static void updateConfirmButton(MinecraftClient client, int width, int height) {
-        if (client.world == null || !client.world.isClient) {
-            return;
-        }
-
-        System.out.println(age);
-        String text;
-
-        if (age < maxAge) {
-            double time = ((double) (maxAge - age) / 20);
-            text = "Wait... (" + String.format("%.1f", time) + "s)";
-            confirmButton.setAlpha(0.5f);
-        } else {
-            text = "Confirm";
-            confirmButton.setAlpha(1f);
-        }
-
-        confirmButton.setMessage(new LiteralText(text));
-
-        age++;
-    }
-
-    private static void saveAndQuit(MinecraftClient client, ButtonWidget widget) {
-        if (client.world == null || age < maxAge) {
+    private static void saveAndQuit(ButtonWidget widget) {
+        if (SaveConfirmScreen.client.world == null || (System.currentTimeMillis() - confirmButton.startTime) < confirmButton.maxAge) {
             return;
         }
 
         isPracticing = false;
 
-        boolean bl = client.isInSingleplayer();
-        boolean bl2 = client.isConnectedToRealms();
-        widget.active = false;
+        SaveConfirmScreen.client.world.disconnect();
 
-        client.world.disconnect();
-
-        if (bl) {
-            client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));
-        } else {
-            client.disconnect();
-        }
-
-        if (bl) {
-            client.openScreen(new TitleScreen());
-        } else if (bl2) {
-            RealmsBridge realmsBridge = new RealmsBridge();
-            realmsBridge.switchToRealms(new TitleScreen());
-        } else {
-            client.openScreen(new MultiplayerScreen(new TitleScreen()));
-        }
+        SaveConfirmScreen.client.disconnect(new SaveLevelScreen(new TranslatableText("menu.savingLevel")));
+        SaveConfirmScreen.client.openScreen(new TitleScreen());
     }
 }

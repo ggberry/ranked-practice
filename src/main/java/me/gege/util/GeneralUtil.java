@@ -6,11 +6,15 @@ import me.gege.data.PlayerEntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.*;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static me.gege.util.SeedUtil.overworldSeed;
 
 public class GeneralUtil {
     public static final Identifier RANKED_SETTINGS_LOCATION = new Identifier(RankedPractice.MOD_ID, "textures/gui/ranked_settings.png");
@@ -60,5 +64,17 @@ public class GeneralUtil {
             playerData.setObsidianPity(oldPlayerData.getObsidianPity());
             playerData.setPearlPity(oldPlayerData.getPearlPity());
         }
+    }
+
+    public static Text seedCopyText(long seed) {
+        return Texts.bracketed(
+                new LiteralText(String.valueOf(seed))
+                        .styled(
+                                style -> style.withColor(Formatting.GREEN)
+                                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, String.valueOf(seed)))
+                                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("chat.copy.click")))
+                                        .withInsertion(String.valueOf(seed))
+                        )
+        );
     }
 }

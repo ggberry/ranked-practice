@@ -2,6 +2,7 @@ package me.gege.mixin.screen;
 
 import me.gege.screen.ConfigScreen;
 import me.gege.screen.SaveConfirmScreen;
+import me.gege.screen.widget.ConfirmButtonWidget;
 import me.gege.util.WorldUtil;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
@@ -40,6 +41,7 @@ public abstract class GameMenuScreenMixin extends Screen {
             return;
         }
 
+        // --- OVERRIDE START ---
         this.addButton(new ButtonWidget(this.width / 2 - 102, this.height / 4 + 24 + -16, 204, 20, new TranslatableText("menu.returnToGame"), buttonWidgetx -> {
             this.client.openScreen(null);
             this.client.mouse.lockCursor();
@@ -81,18 +83,25 @@ public abstract class GameMenuScreenMixin extends Screen {
                         }, string, true))
                 )
         );
-        this.addButton(
-                new ButtonWidget(
-                        this.width / 2 + 4,
-                        this.height / 4 + 72 + -16,
-                        98,
-                        20,
-                        new LiteralText("Enable Cheats"),
-                        buttonWidgetx -> {
-                            WorldUtil.enableCheats();
-                        }
+        // --- OVERRIDE END ---
+        // --- Enable cheats ---
+
+        ConfirmButtonWidget enableCheats = this.addButton(
+                new ConfirmButtonWidget(
+                        1000,
+                        "Enable Cheats",
+                        w -> WorldUtil.enableCheats()
                 )
         );
+
+        enableCheats.init(
+                this.width / 2 + 4,
+                this.height / 4 + 72 + -16,
+                98,
+                20
+        );
+
+        // --- OVERRIDE START ---
         this.addButton(
                 new ButtonWidget(
                         this.width / 2 - 102,
@@ -103,18 +112,22 @@ public abstract class GameMenuScreenMixin extends Screen {
                         buttonWidgetx -> this.client.openScreen(new OptionsScreen(this, this.client.options))
                 )
         );
+        // --- OVERRIDE END ---
+        // --- New Seed & Config ---
 
-        ButtonWidget buttonWidget = this.addButton(
-                new ButtonWidget(
-                        this.width / 2 + 4,
-                        this.height / 4 + 96 + -16,
-                        98,
-                        20,
-                        new LiteralText("New Seed"),
-                        buttonWidgetx -> {
-                            WorldUtil.createWorldInGame();
-                        }
+        ConfirmButtonWidget newSeed = this.addButton(
+                new ConfirmButtonWidget(
+                        1000,
+                        "New Seed",
+                        w -> WorldUtil.createWorldInGame()
                 )
+        );
+
+        newSeed.init(
+                this.width / 2 + 4,
+                this.height / 4 + 96 + -16,
+                98,
+                20
         );
 
         this.addButton(
@@ -134,7 +147,9 @@ public abstract class GameMenuScreenMixin extends Screen {
                 )
         );
 
-        buttonWidget.active = this.client.isIntegratedServerRunning() && !this.client.getServer().isRemote();
+        // --- OVERRIDE START ---
+        newSeed.active = this.client.isIntegratedServerRunning() && !this.client.getServer().isRemote();
+
         ButtonWidget buttonWidget2 = this.addButton(
                 new ButtonWidget(this.width / 2 - 102, this.height / 4 + 120 + -16, 204, 20, new TranslatableText("menu.returnToMenu"), buttonWidgetx -> {
                     this.client.openScreen(new SaveConfirmScreen());
@@ -146,5 +161,6 @@ public abstract class GameMenuScreenMixin extends Screen {
         }
 
         ci.cancel();
+        // --- OVERRIDE END ---
     }
 }

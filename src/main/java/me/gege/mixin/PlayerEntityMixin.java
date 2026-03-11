@@ -3,6 +3,7 @@ package me.gege.mixin;
 import me.gege.RankedPractice;
 import me.gege.data.PlayerEntityData;
 import me.gege.config.BarterConfigs;
+import me.gege.util.DragonUtil;
 import me.gege.util.GeneralUtil;
 import me.gege.util.SeedUtil;
 import net.minecraft.entity.Entity;
@@ -119,6 +120,8 @@ public abstract class PlayerEntityMixin extends Entity implements PlayerEntityDa
         if (SeedUtil.netherCooldown > 0) {
             SeedUtil.netherCooldown--;
         }
+
+        DragonUtil.tickForcePerch(this.getEntityWorld());
     }
 
     static {

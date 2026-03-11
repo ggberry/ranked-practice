@@ -35,10 +35,10 @@ public abstract class BlockAgeStructureProcessorMixin {
 
         Random random = new Random(overworldSeed);
         boolean isOverworld = worldView.getDimension() == DimensionType.OVERWORLD;
-        boolean canBucket = SeedUtil.seedType == 5 && random.nextInt(2) != 0; // If random.nextInt(2) == 0, then it's not bucket completable (seed deterministic).
+        boolean canBucket = SeedUtil.seedType == 5 && random.nextInt(2) != 0; // If random.nextInt(2) == 0 -> not bucket completable (deterministic).
 
         // Returns if portal generates in nether, seed type isn't ruined portal or the portal is bucket completable
-        if (!isOverworld || !canBucket) {
+        if (!isOverworld || canBucket) {
             return;
         }
 

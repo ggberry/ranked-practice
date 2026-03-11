@@ -21,10 +21,13 @@ import net.minecraft.world.gen.GeneratorOptions;
 import net.minecraft.world.level.LevelInfo;
 
 import java.io.File;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static me.gege.seed.SeedManager.generateWorldInfo;
+import static me.gege.seed.SeedManager.setWorldInfo;
 import static me.gege.util.SeedUtil.overworldSeed;
 
 public class WorldUtil extends Screen {
@@ -36,10 +39,14 @@ public class WorldUtil extends Screen {
         MinecraftClient client = MinecraftClient.getInstance();
         playClientSound(client, SoundEvents.BLOCK_NOTE_BLOCK_PLING, 3f);
 
+        if (client.player != null) {
+            client.player.sendMessage(new LiteralText("§eJoining new seed..."), false);
+        }
+
         if (client.world != null) {
             new Thread(() -> client.world.disconnect()).start();
         }
-        
+
         client.submit(WorldUtil::createWorld);
     }
 
@@ -49,27 +56,31 @@ public class WorldUtil extends Screen {
             return;
         }
 
-        generateWorldInfo();
-        String worldName = getFileName();
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-        GeneratorOptions generatorOptions = new GeneratorOptions(
-                overworldSeed,
-                true,
-                false,
-                GeneratorOptions.method_28608(DimensionType.method_28517(overworldSeed), GeneratorOptions.createOverworldGenerator(overworldSeed))
-        );
+        scheduler.schedule(() -> client.execute(() -> {
+            setWorldInfo();
+            String worldName = getFileName();
 
-        LevelInfo levelInfo = new LevelInfo(
-                worldName,
-                GameMode.SURVIVAL,
-                false,
-                Difficulty.EASY,
-                false,
-                new GameRules(),
-                DataPackSettings.SAFE_MODE
-        );
+            GeneratorOptions generatorOptions = new GeneratorOptions(
+                    overworldSeed,
+                    true,
+                    false,
+                    GeneratorOptions.method_28608(DimensionType.method_28517(overworldSeed), GeneratorOptions.createOverworldGenerator(overworldSeed))
+            );
 
-        client.method_29607(worldName, levelInfo, RegistryTracker.create(), generatorOptions);
+            LevelInfo levelInfo = new LevelInfo(
+                    worldName,
+                    GameMode.SURVIVAL,
+                    false,
+                    Difficulty.EASY,
+                    false,
+                    new GameRules(),
+                    DataPackSettings.SAFE_MODE
+            );
+
+            client.method_29607(worldName, levelInfo, RegistryTracker.create(), generatorOptions);
+        }), 1, TimeUnit.SECONDS);
     }
 
     public static void playClientSound(MinecraftClient client, SoundEvent soundEvent, float pitch) {

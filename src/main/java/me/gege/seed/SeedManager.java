@@ -12,8 +12,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 
 import static me.gege.util.SeedUtil.*;
+import static me.gege.util.SeedUtil.seedType;
 
 /**
  * Requests random seeds from API
@@ -21,8 +23,34 @@ import static me.gege.util.SeedUtil.*;
 
 public class SeedManager {
     private static final String API_URL = "https://ranked-practice.onrender.com/";
+    private static CompletableFuture<WorldInfo> worldInfoFuture;
 
-    public static void generateWorldInfo() {
+    public static void preloadWorldInfo() {
+        worldInfoFuture = CompletableFuture.supplyAsync(SeedManager::generateWorldInfo);
+    }
+
+    public static void setWorldInfo() {
+        if (worldInfoFuture == null) {
+            preloadWorldInfo();
+        }
+
+        WorldInfo info = worldInfoFuture.join();
+
+        DragonUtil.init();
+
+        magmaRavines.clear();
+        inNether = false;
+        isPracticing = true;
+
+        overworldSeed = info.overworldSeed;
+        netherSeed = info.netherSeed;
+        seedType = info.seedType;
+        sourcePos = new ChunkPos(info.overworldChunkX, info.overworldChunkZ);
+
+        preloadWorldInfo();
+    }
+
+    private static WorldInfo generateWorldInfo() {
         JsonObject seedInfo = getRandomSeed();
 
         JsonObject overworldInfo = seedInfo.get("overworld").getAsJsonObject();
@@ -35,16 +63,13 @@ public class SeedManager {
 
         long newNetherSeed = netherInfo.get("seed").getAsLong();
 
-        DragonUtil.init();
-
-        magmaRavines.clear();
-        inNether = false;
-        isPracticing = true;
-
-        overworldSeed = newOverworldSeed;
-        netherSeed = newNetherSeed;
-        seedType = typeInfo;
-        sourcePos = new ChunkPos(overworldChunkX, overworldChunkZ);
+        return new WorldInfo(
+                newOverworldSeed,
+                overworldChunkX,
+                overworldChunkZ,
+                newNetherSeed,
+                typeInfo
+        );
     }
 
     private static JsonObject getRandomSeed() {

@@ -39,7 +39,7 @@ public class ConfigScreen extends Screen {
                 SeedUtil::updateSeedButton)
         );
 
-        this.addButton(new ButtonWidget(this.width / 2 - 100, this.height / 2 + 200, 200, 20, new LiteralText("Done"),
+        this.addButton(new ButtonWidget(this.width / 2 - 50, this.height / 2 + 200, 100, 20, new LiteralText("Done"),
                 buttonWidget -> this.client.openScreen(this.oldScreen))
         );
     }
@@ -47,7 +47,7 @@ public class ConfigScreen extends Screen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackgroundTexture(0);
-        this.drawCenteredText(matrices, textRenderer, new LiteralText("§e§lRanked Practice BarterConfigs"), this.width / 2, 100, 16777215);
+        this.drawCenteredText(matrices, textRenderer, new LiteralText("§e§lRanked Practice Configs"), this.width / 2, 100, 16777215);
 
         super.render(matrices, mouseX, mouseY, delta);
     }

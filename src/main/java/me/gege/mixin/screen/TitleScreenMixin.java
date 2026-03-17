@@ -40,14 +40,12 @@ public abstract class TitleScreenMixin extends Screen {
                 )
         );
 
-        ConfirmButtonWidget practiceWidget = this.addButton(
-                new ConfirmButtonWidget(0, "Practice", buttonWidget -> {
-                    playClientSound(client, SoundEvents.BLOCK_NOTE_BLOCK_PLING, 3f);
-                    WorldUtil.createWorld();
-                })
+        this.addButton(
+                new ConfirmButtonWidget(this.width / 2 - 100, y + spacingY, 200, 20, 0, "Practice",
+                        buttonWidget -> WorldUtil.createWorld(true),
+                        null
+                )
         );
-
-        practiceWidget.init(this.width / 2 - 100, y + spacingY, 200, 20);
 
         this.addButton(
                 new TexturedButtonWidget(
@@ -68,6 +66,4 @@ public abstract class TitleScreenMixin extends Screen {
 
         ci.cancel();
     }
-
-
 }

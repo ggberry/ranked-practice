@@ -5,7 +5,15 @@
   "mixins": [
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
+    "biome.WarmOceanBiomeMixin",
+    "biome.DeepColdOceanBiomeMixin",
+    "biome.DeepOceanBiomeMixin",
+    "biome.DeepWarmOceanBiomeMixin",
+    "biome.LukewarmOceanBiomeMixin",
+    "biome.OceanBiomeMixin",
     "command.SeedCommandMixin",
+    "dragon.EnderDragonEntityMixin",
+    "dragon.HoldingPatternPhaseMixin",
     "misc.CreditsScreenMixin",
     "rng.DrownedEntityMixin",
     "rng.ElderGuardianEntityMixin",
@@ -18,15 +26,12 @@
     "screen.EventFactoryMixin",
     "seed.BlockAgeStructureProcessorMixin",
     "seed.ChunkRandomMixin",
-    "seed.DefaultBiomeFeaturesMixin",
     "seed.DimensionTypeMixin",
     "seed.DungeonFeatureMixin",
     "seed.LootTableMixin",
     "seed.SetStewEffectLootFunctionMixin",
     "seed.StructureFeatureMixin",
-    "seed.StructureStartMixin",
-    "dragon.EnderDragonEntityMixin",
-    "dragon.HoldingPatternPhaseMixin"
+    "seed.StructureStartMixin"
   ],
   "injectors": {
     "defaultRequire": 1

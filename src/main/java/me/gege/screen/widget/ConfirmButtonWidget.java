@@ -4,63 +4,68 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import org.jetbrains.annotations.Nullable;
 
 public class ConfirmButtonWidget extends ButtonWidget {
+    private static final MinecraftClient client = MinecraftClient.getInstance();
     private final ButtonWidget.PressAction action;
-    private final String message;
+    private final ButtonWidget.PressAction startAction;
+    private boolean startActionDone;
     private boolean pressed;
     public final int maxAge;
     public long startTime;
 
-    public ConfirmButtonWidget(int maxAge, String message, ButtonWidget.PressAction action) {
-        super(0, 0, 0, 0, new LiteralText(""), null);
+    public ConfirmButtonWidget(int x, int y, int width, int height, int maxAge, String message, ButtonWidget.PressAction action, @Nullable ButtonWidget.PressAction startAction) {
+        super(x, y, width, height, new LiteralText(message), action);
 
         this.action = action;
+        this.startAction = startAction;
         this.maxAge = maxAge;
-        this.message = message;
+        this.startActionDone = false;
         this.pressed = false;
         this.startTime = System.currentTimeMillis();
     }
 
     @Override
     public void onPress() {
-        this.pressed = true;
         this.action.onPress(this);
+        this.setPressed();
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.update(matrices);
         super.render(matrices, mouseX, mouseY, delta);
-
-        update();
     }
 
-    public void init(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.startTime = System.currentTimeMillis();
+    public void setPressed() {
+        this.pressed = true;
     }
 
-    public void update() {
+    public void update(MatrixStack matrices) {
+        if (startAction != null && !startActionDone) {
+            startAction.onPress(this);
+            startActionDone = true;
+        }
+
         if (pressed) {
             this.active = false;
+            this.setMessage(new LiteralText("-"));
             return;
         }
 
-        String text;
         long timeDiff = System.currentTimeMillis() - startTime;
 
         if (maxAge != 0 && timeDiff < maxAge) {
             double time = ((double) (maxAge - timeDiff) / 1000);
-            text = "Wait... (" + String.format("%.2f", time) + "s)";
+            String text = String.format("%.1f", time) + "s";
+            this.drawStringWithShadow(matrices, client.textRenderer, text, this.x + (this.width - client.textRenderer.getWidth(text)) / 2, this.y + this.height / 2 - 4, 16777215);
+
+            this.setAlpha(0.25f);
             this.active = false;
         } else {
-            text = message;
+            this.setAlpha(1f);
             this.active = true;
         }
-
-        this.setMessage(new LiteralText(text));
     }
 }

@@ -63,18 +63,14 @@ public class RuinedPortalHelper {
 
         bonusItems.add(new ItemStack(Items.IRON_NUGGET, 18 + bonusIron));
 
-        int lightInt = random.nextInt(2);
-        int fireChargeInt = random.nextInt(3);
+        int lightInt = random.nextInt(20);
         int swordInt = random.nextInt(100);
         ItemStack swordStack = new ItemStack(Items.GOLDEN_SWORD);
 
-        if (lightInt == 0) {
-            bonusItems.add(new ItemStack(Items.FLINT, 1));
-        } else {
+        if (lightInt > 1) {
             bonusItems.add(new ItemStack(Items.FLINT_AND_STEEL, 1));
-        }
-
-        if (fireChargeInt == 0) {
+        } else {
+            swordInt = 95; // Guarantees a fire aspect sword if fire source is fire charge
             bonusItems.add(new ItemStack(Items.FIRE_CHARGE, 1));
         }
 

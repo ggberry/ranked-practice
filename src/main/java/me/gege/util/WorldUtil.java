@@ -1,7 +1,12 @@
 package me.gege.util;
 
+import me.gege.screen.widget.ConfirmButtonWidget;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.WorldGenerationProgressTracker;
+import net.minecraft.client.gui.screen.LevelLoadingScreen;
+import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.resource.DataPackSettings;
@@ -35,31 +40,30 @@ public class WorldUtil extends Screen {
         super(title);
     }
 
-    public static void createWorldInGame() {
+    public static void createWorldInGame(boolean newSeed) {
         MinecraftClient client = MinecraftClient.getInstance();
-        playClientSound(client, SoundEvents.BLOCK_NOTE_BLOCK_PLING, 3f);
 
         if (client.player != null) {
-            client.player.sendMessage(new LiteralText("§eJoining new seed..."), false);
+            client.player.sendMessage(new LiteralText("§eJoining New Seed..."), false);
         }
 
-        if (client.world != null) {
-            new Thread(() -> client.world.disconnect()).start();
-        }
-
-        client.submit(WorldUtil::createWorld);
+        WorldUtil.createWorld(newSeed);
     }
 
-    public static void createWorld() {
+    public static void createWorld(boolean newSeed) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client == null) {
             return;
         }
 
+        playClientSound(client, SoundEvents.BLOCK_NOTE_BLOCK_PLING, 3f);
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
         scheduler.schedule(() -> client.execute(() -> {
-            setWorldInfo();
+            if (newSeed) {
+                setWorldInfo();
+            }
+
             String worldName = getFileName();
 
             GeneratorOptions generatorOptions = new GeneratorOptions(
@@ -79,8 +83,14 @@ public class WorldUtil extends Screen {
                     DataPackSettings.SAFE_MODE
             );
 
+            if (client.world != null) {
+                client.world.disconnect();
+            }
+
             client.method_29607(worldName, levelInfo, RegistryTracker.create(), generatorOptions);
-        }), 1, TimeUnit.SECONDS);
+        }), 200, TimeUnit.MILLISECONDS);
+
+        scheduler.shutdown();
     }
 
     public static void playClientSound(MinecraftClient client, SoundEvent soundEvent, float pitch) {
@@ -103,9 +113,25 @@ public class WorldUtil extends Screen {
 
         playerManager.setCheatsAllowed(true);
         playerManager.sendCommandTree(serverPlayer);
-
         player.setClientPermissionLevel(server.getPermissionLevel(player.getGameProfile()));
+
         player.sendMessage(new LiteralText("§aCheats have been enabled"), false);
+    }
+
+    public static void checkCheats(ConfirmButtonWidget widget) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        MinecraftServer server = client.getServer();
+
+        if (server == null) {
+            return;
+        }
+
+        PlayerManager playerManager = server.getPlayerManager();
+
+        if (playerManager.areCheatsAllowed()) {
+            widget.setMessage(new LiteralText("Cheats Enabled"));
+            widget.setPressed();
+        }
     }
 
     public static String getFileName() {

@@ -19,7 +19,7 @@ import static me.gege.util.SeedUtil.*;
 
 public class RankedRavineCarver extends UnderwaterRavineCarver {
     public static final ProbabilityConfig config = new ProbabilityConfig(1F);
-    private static final int RADIUS = 10;
+    private static final int RADIUS = 7;
 
     public RankedRavineCarver(Codec<ProbabilityConfig> codec) {
         super(codec);
@@ -40,8 +40,6 @@ public class RankedRavineCarver extends UnderwaterRavineCarver {
 
     public boolean allowRavine(int chunkX, int chunkZ) {
         ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
-        Random random = new Random(overworldSeed);
-        int ravineSeparation = random.nextInt(2 * RADIUS - 4);
 
         if (magmaRavines.contains(chunkPos)) {
             return true;
@@ -51,11 +49,15 @@ public class RankedRavineCarver extends UnderwaterRavineCarver {
             return false;
         }
 
-        if (magmaRavines.size() == 1 && getSquareDist(magmaRavines.get(0).x, magmaRavines.get(0).z, chunkX, chunkZ) < ravineSeparation * ravineSeparation) {
-            return false;
+        boolean inRange = true;
+
+        if (magmaRavines.size() == 1) {
+            inRange = getSquareDist(chunkX, chunkZ, magmaRavines.get(0).x, magmaRavines.get(0).z) >= 5 * 5;
         }
 
-        if (magmaRavines.size() < 2) {
+        if (magmaRavines.size() < 2 && inRange) {
+            BlockPos blockPos = chunkPos.getCenterBlockPos();
+            System.out.println("Ravine " + RADIUS + " " + chunkPos + " tp @p " + blockPos.getX() + " " + blockPos.getY() + " " + blockPos.getZ());
             magmaRavines.add(chunkPos);
             return true;
         }
@@ -72,8 +74,7 @@ public class RankedRavineCarver extends UnderwaterRavineCarver {
 
     @Override
     protected boolean carveRegion(Chunk chunk, Function<BlockPos, Biome> posToBiome, long seed, int seaLevel, int chunkX, int chunkZ, double startX, double startY, double startZ, double yaw, double pitch, BitSet carvingMask) {
-        Random random = new Random();
-        pitch = 40 + random.nextFloat() * (80 - 40);
+        pitch = 60;
 
         return super.carveRegion(chunk, posToBiome, seed, seaLevel, chunkX, chunkZ, startX, startY, startZ, yaw, pitch, carvingMask);
     }

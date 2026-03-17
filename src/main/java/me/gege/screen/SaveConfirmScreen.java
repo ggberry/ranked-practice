@@ -16,7 +16,7 @@ import static me.gege.util.SeedUtil.isPracticing;
 
 public class SaveConfirmScreen extends Screen {
     private static final MinecraftClient client = MinecraftClient.getInstance();
-    private static ConfirmButtonWidget confirmButton = new ConfirmButtonWidget(1000, "Confirm", SaveConfirmScreen::saveAndQuit);
+    private static ConfirmButtonWidget confirmButton;
 
     public SaveConfirmScreen() {
         super(new LiteralText("Are You Sure?"));
@@ -24,14 +24,7 @@ public class SaveConfirmScreen extends Screen {
 
     @Override
     protected void init() {
-        confirmButton = new ConfirmButtonWidget(1000, "Confirm", SaveConfirmScreen::saveAndQuit);
-
-        confirmButton.init(
-                width / 2 - 102,
-                height / 4 + 72 + 32,
-                98,
-                20
-        );
+        confirmButton = new ConfirmButtonWidget(width / 2 - 102, height / 4 + 72 + 32, 98, 20, 1000, "Confirm", SaveConfirmScreen::saveAndQuit, null);
 
         this.addButton(confirmButton);
 

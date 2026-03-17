@@ -53,7 +53,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                         98,
                         20,
                         new TranslatableText("gui.advancements"),
-                        buttonWidgetx -> this.client.openScreen(new AdvancementsScreen(this.client.player.networkHandler.getAdvancementHandler()))
+                        widget -> this.client.openScreen(new AdvancementsScreen(this.client.player.networkHandler.getAdvancementHandler()))
                 )
         );
         this.addButton(
@@ -74,7 +74,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                         98,
                         20,
                         new TranslatableText("menu.sendFeedback"),
-                        buttonWidgetx -> this.client.openScreen(new ConfirmChatLinkScreen(bl -> {
+                        widget -> this.client.openScreen(new ConfirmChatLinkScreen(bl -> {
                             if (bl) {
                                 Util.getOperatingSystem().open(string);
                             }
@@ -86,19 +86,17 @@ public abstract class GameMenuScreenMixin extends Screen {
         // --- OVERRIDE END ---
         // --- Enable cheats ---
 
-        ConfirmButtonWidget enableCheats = this.addButton(
+        this.addButton(
                 new ConfirmButtonWidget(
+                        this.width / 2 + 4,
+                        this.height / 4 + 72 + -16,
+                        98,
+                        20,
                         1000,
                         "Enable Cheats",
-                        w -> WorldUtil.enableCheats()
+                        widget -> WorldUtil.enableCheats(),
+                        widget -> WorldUtil.checkCheats((ConfirmButtonWidget) widget)
                 )
-        );
-
-        enableCheats.init(
-                this.width / 2 + 4,
-                this.height / 4 + 72 + -16,
-                98,
-                20
         );
 
         // --- OVERRIDE START ---
@@ -109,25 +107,36 @@ public abstract class GameMenuScreenMixin extends Screen {
                         98,
                         20,
                         new TranslatableText("menu.options"),
-                        buttonWidgetx -> this.client.openScreen(new OptionsScreen(this, this.client.options))
+                        widget -> this.client.openScreen(new OptionsScreen(this, this.client.options))
                 )
         );
         // --- OVERRIDE END ---
         // --- New Seed & Config ---
 
-        ConfirmButtonWidget newSeed = this.addButton(
+        this.addButton(
                 new ConfirmButtonWidget(
+                        this.width / 2 + 4,
+                        this.height / 4 + 96 + -16,
+                        98,
+                        20,
                         1000,
                         "New Seed",
-                        w -> WorldUtil.createWorldInGame()
+                        w -> WorldUtil.createWorldInGame(true),
+                        null
                 )
         );
 
-        newSeed.init(
-                this.width / 2 + 4,
-                this.height / 4 + 96 + -16,
-                98,
-                20
+        this.addButton(
+                new ConfirmButtonWidget(
+                        this.width / 2 - 100,
+                        this.height - 45,
+                        200,
+                        20,
+                        0,
+                        "Reset World",
+                        w -> WorldUtil.createWorldInGame(false),
+                        null
+                )
         );
 
         this.addButton(
@@ -148,12 +157,10 @@ public abstract class GameMenuScreenMixin extends Screen {
         );
 
         // --- OVERRIDE START ---
-        newSeed.active = this.client.isIntegratedServerRunning() && !this.client.getServer().isRemote();
-
         ButtonWidget buttonWidget2 = this.addButton(
-                new ButtonWidget(this.width / 2 - 102, this.height / 4 + 120 + -16, 204, 20, new TranslatableText("menu.returnToMenu"), buttonWidgetx -> {
-                    this.client.openScreen(new SaveConfirmScreen());
-                })
+                new ButtonWidget(this.width / 2 - 102, this.height / 4 + 120 + -16, 204, 20, new TranslatableText("menu.returnToMenu"), widget ->
+                        this.client.openScreen(new SaveConfirmScreen())
+                )
         );
 
         if (!this.client.isInSingleplayer()) {

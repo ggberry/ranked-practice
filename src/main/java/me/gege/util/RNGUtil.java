@@ -14,15 +14,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.structure.StructureManager;
 import net.minecraft.structure.StructureStart;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.*;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.gen.ChunkRandom;
 import net.minecraft.world.gen.StructureAccessor;
+import net.minecraft.world.gen.chunk.StructureConfig;
+import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.feature.StructureFeature;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -337,45 +339,23 @@ public class RNGUtil {
             return;
         }
 
+        StructureFeature<?> bastionFeature = StructureFeature.BASTION_REMNANT;
+        StructureFeature<?> templeFeature = StructureFeature.DESERT_PYRAMID;
+
         BlockPos pos = entity.getBlockPos();
-        StructureAccessor structureAccessor = world.getStructureAccessor();
+        BlockPos bastion = bastionFeature.method_27218(StructuresConfig.DEFAULT_STRUCTURES.get(bastionFeature), world.getSeed(), new ChunkRandom(), entity.chunkX, entity.chunkZ).getCenterBlockPos();
+        BlockPos temple = templeFeature.method_27218(StructuresConfig.DEFAULT_STRUCTURES.get(templeFeature), world.getSeed(), new ChunkRandom(), entity.chunkX, entity.chunkZ).getCenterBlockPos();
 
-        StructureStart<?> bastion = structureAccessor.method_28388(
-                pos,
-                true,
-                StructureFeature.BASTION_REMNANT
-        );
-
-        StructureStart<?> dTemple = structureAccessor.method_28388(
-                pos,
-                true,
-                StructureFeature.DESERT_PYRAMID
-        );
-
-        if ((bastion.hasChildren() && bastion.getBoundingBox().contains(pos)) || (dTemple.hasChildren() && dTemple.getBoundingBox().contains(pos))) {
+        if ((rangeFromStructure(pos, bastion) < 75) || (rangeFromStructure(pos, temple) < 50)) {
             cir.setReturnValue(false);
         }
     }
 
-//    public static void lowerFlyChance(double x, double y, double z, EnderDragonFight fight, PathNode[] pathNodes, CallbackInfoReturnable<Integer> cir) {
-//        float f = 10000.0F;
-//        int i = 0;
-//        PathNode pathNode = new PathNode(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z));
-//        int j = 0;
-//        if (fight == null || fight.getAliveEndCrystals() == 0) {
-//            j = 12;
-//        }
-//
-//        for (int k = j; k < 20; k++) {
-//            if (pathNodes[k] != null) {
-//                float g = pathNodes[k].getSquaredDistance(pathNode);
-//                if (g < f) {
-//                    f = g;
-//                    i = k;
-//                }
-//            }
-//        }
-//
-//        cir.setReturnValue(i);
-//    }
+    public static double rangeFromStructure(BlockPos entityPos, BlockPos structurePos) {
+        int dx = entityPos.getX() - structurePos.getX();
+        int dy = entityPos.getY() - structurePos.getY();
+        int dz = entityPos.getZ() - structurePos.getZ();
+
+        return Math.sqrt(dx*dx + dy*dy + dz*dz);
+    }
 }

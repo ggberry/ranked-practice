@@ -1,6 +1,9 @@
 package me.gege.util;
 
 import me.gege.config.ConfigManager;
+import me.gege.config.ModConfigs;
+import me.gege.seed.SeedManager;
+import me.gege.seed.WorldInfo;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.server.world.ServerWorld;
@@ -113,23 +116,37 @@ public class SeedUtil {
     }
 
     public static void updateSeedButton(ButtonWidget buttonWidget) {
-        String current = buttonWidget.getMessage().getString().split(": ")[1];
-        Object[] keySet = seedTypes.keySet().toArray();
-        String newKey = "Random";
+        ModConfigs configs = ConfigManager.CONFIGS;
+        String seedType = buttonWidget.getMessage().getString().split(": ")[0];
 
-        for (int i = 0; i < keySet.length; i++) {
-            if (keySet[i].equals(current)) {
-                int checkIndex = i == keySet.length - 1 ? 0 : i + 1;
-                newKey = keySet[checkIndex].toString();
-
+        switch (seedType) {
+            case "Villages":
+                configs.doVillages = !configs.doVillages;
+                buttonWidget.setMessage(new LiteralText(seedType + ": " + (configs.doVillages ? "On" : "Off")));
                 break;
-            }
+
+            case "Shipwrecks":
+                configs.doShipwrecks = !configs.doShipwrecks;
+                buttonWidget.setMessage(new LiteralText(seedType + ": " + (configs.doShipwrecks ? "On" : "Off")));
+                break;
+
+            case "Buried Treasures":
+                configs.doTreasures = !configs.doTreasures;
+                buttonWidget.setMessage(new LiteralText(seedType + ": " + (configs.doTreasures ? "On" : "Off")));
+                break;
+
+            case "Desert Temples":
+                configs.doTemples = !configs.doTemples;
+                buttonWidget.setMessage(new LiteralText(seedType + ": " + (configs.doTemples ? "On" : "Off")));
+                break;
+
+            case "Ruined Portals":
+                configs.doPortals = !configs.doPortals;
+                buttonWidget.setMessage(new LiteralText(seedType + ": " + (configs.doPortals ? "On" : "Off")));
+                break;
         }
 
-        ConfigManager.CONFIGS.seedType = seedTypes.get(newKey);
         ConfigManager.save();
-
-        buttonWidget.setMessage(new LiteralText("Seed Type: " + newKey));
     }
 
     public static String portalCheck(String seedType) {
@@ -140,16 +157,6 @@ public class SeedUtil {
         }
 
         return seedType;
-    }
-
-    public static String formattedFromType(String value) {
-        for (String key: seedTypes.keySet()) {
-            if (seedTypes.get(key).equals(value)) {
-                return key;
-            }
-        }
-
-        return "Random";
     }
 
     public static String nameFromType(int seedType) {

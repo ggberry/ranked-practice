@@ -4,7 +4,11 @@ import me.gege.seed.RuinedPortalHelper;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextType;
+import net.minecraft.loot.context.LootContextTypes;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,6 +22,8 @@ import static me.gege.util.SeedUtil.seedType;
 
 @Mixin(LootTable.class)
 public abstract class LootTableMixin {
+    @Shadow @Final private LootContextType type;
+
     @Inject(at = @At("HEAD"), method = "supplyInventory", cancellable = true)
     private void supplyInventory(Inventory inventory, LootContext context, CallbackInfo ci) {
         if (!isPracticing) {

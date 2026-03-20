@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import me.gege.RankedPractice;
 import me.gege.config.ConfigManager;
+import me.gege.config.ModConfigs;
 import me.gege.util.DragonUtil;
 import net.minecraft.util.math.ChunkPos;
 
@@ -12,6 +13,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static me.gege.util.SeedUtil.*;
@@ -51,7 +55,7 @@ public class SeedManager {
     }
 
     private static WorldInfo generateWorldInfo() {
-        JsonObject seedInfo = getRandomSeed();
+        JsonObject seedInfo = randomSeedInfo();
 
         JsonObject overworldInfo = seedInfo.get("overworld").getAsJsonObject();
         JsonObject netherInfo = seedInfo.get("nether").getAsJsonObject();
@@ -72,9 +76,10 @@ public class SeedManager {
         );
     }
 
-    private static JsonObject getRandomSeed() {
+    private static JsonObject randomSeedInfo() {
         try {
-            String suffix = "request-seed/" + portalCheck(ConfigManager.CONFIGS.seedType);
+            String type = getSeedType();
+            String suffix = "request-seed/" + type;
 
             URL url = new URL(API_URL + suffix);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -101,5 +106,30 @@ public class SeedManager {
         }
 
         return new JsonObject();
+    }
+
+    private static String getSeedType() {
+        List<String> enabledTypes = new ArrayList<>();
+        ModConfigs configs = ConfigManager.CONFIGS;
+
+        if (configs.doVillages) {
+            enabledTypes.add("village");
+        }
+        if (configs.doShipwrecks) {
+            enabledTypes.add("shipwreck");
+        }
+        if (configs.doTreasures) {
+            enabledTypes.add("treasure");
+        }
+        if (configs.doTemples) {
+            enabledTypes.add("temple");
+        }
+        if (configs.doPortals) {
+            enabledTypes.add("portal");
+        }
+
+        Collections.shuffle(enabledTypes);
+
+        return portalCheck(enabledTypes.get(0));
     }
 }

@@ -1,14 +1,19 @@
 package me.gege.util;
 
+import me.gege.screen.TransparentLevelLoadingScreen;
 import me.gege.screen.widget.ConfirmButtonWidget;
+import me.gege.seed.SeedManager;
+import me.gege.seed.WorldInfo;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.WorldGenerationProgressTracker;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.resource.DataPackSettings;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
@@ -60,6 +65,11 @@ public class WorldUtil extends Screen {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
         scheduler.schedule(() -> client.execute(() -> {
+            if (client.world != null) {
+                client.world.disconnect();
+                client.disconnect(new TransparentLevelLoadingScreen());
+            }
+
             if (newSeed) {
                 setWorldInfo();
             }
@@ -83,12 +93,8 @@ public class WorldUtil extends Screen {
                     DataPackSettings.SAFE_MODE
             );
 
-            if (client.world != null) {
-                client.world.disconnect();
-            }
-
             client.method_29607(worldName, levelInfo, RegistryTracker.create(), generatorOptions);
-        }), 200, TimeUnit.MILLISECONDS);
+        }), 2000, TimeUnit.MILLISECONDS);
 
         scheduler.shutdown();
     }
@@ -132,6 +138,25 @@ public class WorldUtil extends Screen {
             widget.setMessage(new LiteralText("Cheats Enabled"));
             widget.setPressed();
         }
+    }
+
+    public static void checkTypeEnabled(ConfirmButtonWidget buttonWidget) {
+        if (SeedManager.getEnabledTypes().isEmpty()) {
+            buttonWidget.setPressed();
+        }
+    }
+
+    public static void sendSeedToast() {
+        MinecraftClient client = MinecraftClient.getInstance();
+
+        client.getToastManager().add(
+                SystemToast.method_29047(
+                        client,
+                        SystemToast.Type.TUTORIAL_HINT,
+                        new LiteralText("Ranked Practice"),
+                        new LiteralText("Starting New Speedrun")
+                )
+        );
     }
 
     public static String getFileName() {

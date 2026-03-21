@@ -42,7 +42,7 @@ public abstract class GameMenuScreenMixin extends Screen {
         }
 
         // --- OVERRIDE START ---
-        this.addButton(new ButtonWidget(this.width / 2 - 102, this.height / 4 + 24 + -16, 204, 20, new TranslatableText("menu.returnToGame"), buttonWidgetx -> {
+        this.addButton(new ButtonWidget(this.width / 2 - 102, this.height / 4 + 24 + -16, 204, 20, new TranslatableText("menu.returnToGame"), w -> {
             this.client.openScreen(null);
             this.client.mouse.lockCursor();
         }));
@@ -63,7 +63,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                         98,
                         20,
                         new TranslatableText("gui.stats"),
-                        buttonWidgetx -> this.client.openScreen(new StatsScreen(this, this.client.player.getStatHandler()))
+                        w -> this.client.openScreen(new StatsScreen(this, this.client.player.getStatHandler()))
                 )
         );
         String string = SharedConstants.getGameVersion().isStable() ? "https://aka.ms/javafeedback?ref=game" : "https://aka.ms/snapshotfeedback?ref=game";
@@ -122,7 +122,10 @@ public abstract class GameMenuScreenMixin extends Screen {
                         1000,
                         "New Seed",
                         w -> WorldUtil.createWorldInGame(true),
-                        null
+                        w -> {
+                            WorldUtil.checkTypeEnabled((ConfirmButtonWidget) w);
+                            WorldUtil.sendSeedToast();
+                        }
                 )
         );
 

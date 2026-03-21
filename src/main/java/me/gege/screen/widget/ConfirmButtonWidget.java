@@ -61,11 +61,17 @@ public class ConfirmButtonWidget extends ButtonWidget {
             String text = String.format("%.1f", time) + "s";
             this.drawStringWithShadow(matrices, client.textRenderer, text, this.x + (this.width - client.textRenderer.getWidth(text)) / 2, this.y + this.height / 2 - 4, 16777215);
 
-            this.setAlpha(0.25f);
             this.active = false;
+
+            if (this.maxAge > 0) {
+                this.setAlpha(0.25f);
+            }
         } else {
-            this.setAlpha(1f);
             this.active = true;
+
+            if (this.maxAge > 0) {
+                this.setAlpha(1f);
+            }
         }
     }
 }

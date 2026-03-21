@@ -26,8 +26,9 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation files("libs/SpeedRunIGT-16.0+1.16.1.jar")
 	modImplementation files("libs/extra-options-2.2.1+1.16.1.jar")
+	modImplementation files("libs/fabric-api-0.15.0+build.379-1.16.1.jar")
+	modImplementation files("libs/SpeedRunIGT-16.0+1.16.1.jar")
 
 	implementation 'com.google.code.gson:gson:2.11.0'
 }
@@ -59,6 +60,10 @@ jar {
 
 	from("LICENSE") {
 		rename { "${it}_${inputs.properties.archivesName}"}
+	}
+
+	metaInf {
+		from "libs"
 	}
 }
 

@@ -49,7 +49,7 @@ public class RuinedPortalHelper {
         StructureStart<?> structureStart = getPortalStart(server.getOverworld());
         List<ItemStack> bonusItems = new ArrayList<>();
 
-        if (structureStart == null || !chestPos.isWithinDistance(sourcePos.getCenterBlockPos(), 20)) {
+        if (structureStart == null || !chestPos.isWithinDistance(sourcePos.getCenterBlockPos().add(0, chestPos.getY(), 0), 20)) {
             return;
         }
 

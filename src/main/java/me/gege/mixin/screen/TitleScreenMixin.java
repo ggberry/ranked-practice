@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -18,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.gege.util.GeneralUtil.RANKED_SETTINGS_LOCATION;
-import static me.gege.util.WorldUtil.playClientSound;
 
 /**
  * Removes Multiplayer & Realm options and replaces them with Practice.
@@ -42,8 +40,11 @@ public abstract class TitleScreenMixin extends Screen {
 
         this.addButton(
                 new ConfirmButtonWidget(this.width / 2 - 100, y + spacingY, 200, 20, 0, "Practice",
-                        buttonWidget -> WorldUtil.createWorld(true),
-                        null
+                        w -> WorldUtil.createWorld(true),
+                        w -> {
+                            WorldUtil.checkTypeEnabled((ConfirmButtonWidget) w);
+                            WorldUtil.sendSeedToast();
+                        }
                 )
         );
 

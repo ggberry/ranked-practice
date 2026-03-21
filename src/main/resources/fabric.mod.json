@@ -29,10 +29,17 @@
 		"fabricloader": ">=0.18.1",
 		"minecraft": "~1.16.1",
 		"java": ">=8",
-		"speedrunigt": ">=7.0",
 		"fabric": "*"
 	},
-	"suggests": {
-		"another-mod": "*"
-	}
+	"jars": [
+		{
+			"file": "META-INF/extra-options-2.2.1+1.16.1.jar"
+		},
+		{
+			"file": "META-INF/fabric-api-0.15.0+build.379-1.16.1.jar"
+		},
+		{
+			"file": "META-INF/SpeedRunIGT-16.0+1.16.1.jar"
+		}
+	]
 }

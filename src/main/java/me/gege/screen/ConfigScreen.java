@@ -80,6 +80,11 @@ public class ConfigScreen extends Screen {
         this.renderBackgroundTexture(0);
         this.drawCenteredText(matrices, textRenderer, new LiteralText("§e§lRanked Practice Configs"), this.width / 2, 100, 16777215);
 
+        if (SeedManager.getEnabledTypes().isEmpty()) {
+            this.drawCenteredText(matrices, textRenderer, new LiteralText("§c§lWarning: §rNo seed types enabled."), this.width / 2, 300, 16777215);
+            this.drawCenteredText(matrices, textRenderer, new LiteralText("You will be unable to use practice."), this.width / 2, 315, 16777215);
+        }
+
         super.render(matrices, mouseX, mouseY, delta);
     }
 }

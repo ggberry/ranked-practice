@@ -4,3 +4,5 @@ accessible field net/minecraft/world/dimension/DimensionType OVERWORLD Lnet/mine
 accessible field net/minecraft/world/dimension/DimensionType THE_NETHER Lnet/minecraft/world/dimension/DimensionType;
 accessible method net/minecraft/loot/LootTable getFreeSlots (Lnet/minecraft/inventory/Inventory;Ljava/util/Random;)Ljava/util/List;
 accessible method net/minecraft/loot/LootTable shuffle (Ljava/util/List;ILjava/util/Random;)V
+accessible field net/minecraft/client/world/ClientWorld netHandler Lnet/minecraft/client/network/ClientPlayNetworkHandler;
+accessible field net/minecraft/network/ClientConnection channel Lio/netty/channel/Channel;

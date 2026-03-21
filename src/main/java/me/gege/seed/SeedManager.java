@@ -109,27 +109,28 @@ public class SeedManager {
     }
 
     private static String getSeedType() {
+        List<String> enabledTypes = getEnabledTypes();
+        Collections.shuffle(enabledTypes);
+
+        return portalCheck(enabledTypes.get(0));
+    }
+
+    public static List<String> getEnabledTypes() {
         List<String> enabledTypes = new ArrayList<>();
         ModConfigs configs = ConfigManager.CONFIGS;
 
         if (configs.doVillages) {
             enabledTypes.add("village");
-        }
-        if (configs.doShipwrecks) {
+        } if (configs.doShipwrecks) {
             enabledTypes.add("shipwreck");
-        }
-        if (configs.doTreasures) {
+        } if (configs.doTreasures) {
             enabledTypes.add("treasure");
-        }
-        if (configs.doTemples) {
+        } if (configs.doTemples) {
             enabledTypes.add("temple");
-        }
-        if (configs.doPortals) {
+        } if (configs.doPortals) {
             enabledTypes.add("portal");
         }
 
-        Collections.shuffle(enabledTypes);
-
-        return portalCheck(enabledTypes.get(0));
+        return enabledTypes;
     }
 }

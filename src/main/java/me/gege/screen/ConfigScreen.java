@@ -14,12 +14,8 @@ import net.minecraft.text.LiteralText;
 import static me.gege.util.SeedUtil.updateSeedButton;
 
 public class ConfigScreen extends Screen {
-    private final Screen oldScreen;
-
-    public ConfigScreen(Screen oldScreen) {
+    public ConfigScreen() {
         super(new LiteralText("Config Screen"));
-
-        this.oldScreen = oldScreen;
     }
 
     @Override
@@ -65,7 +61,7 @@ public class ConfigScreen extends Screen {
         );
 
         this.addButton(new ButtonWidget(this.width / 2 - 50, this.height / 2 + 200, 100, 20, new LiteralText("Done"),
-                buttonWidget -> this.client.openScreen(this.oldScreen))
+                buttonWidget -> this.onClose())
         );
     }
 

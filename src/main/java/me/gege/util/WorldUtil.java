@@ -1,16 +1,10 @@
 package me.gege.util;
 
-import me.gege.screen.TransparentLevelLoadingScreen;
+import me.gege.screen.DummyLevelLoadingScreen;
 import me.gege.screen.widget.ConfirmButtonWidget;
 import me.gege.seed.SeedManager;
-import me.gege.seed.WorldInfo;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.WorldGenerationProgressTracker;
-import net.minecraft.client.gui.screen.LevelLoadingScreen;
-import net.minecraft.client.gui.screen.SaveLevelScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.toast.SystemToast;
@@ -37,17 +31,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static me.gege.seed.SeedManager.setWorldInfo;
+import static me.gege.seed.SeedManager.*;
 import static me.gege.util.SeedUtil.overworldSeed;
 
 public class WorldUtil extends Screen {
+    private static final MinecraftClient client = MinecraftClient.getInstance();
+    private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
     protected WorldUtil(Text title) {
         super(title);
     }
 
     public static void createWorldInGame(boolean newSeed) {
-        MinecraftClient client = MinecraftClient.getInstance();
-
         if (client.player != null) {
             client.player.sendMessage(new LiteralText("§eJoining New Seed..."), false);
         }
@@ -56,22 +51,32 @@ public class WorldUtil extends Screen {
     }
 
     public static void createWorld(boolean newSeed) {
-        MinecraftClient client = MinecraftClient.getInstance();
         if (client == null) {
             return;
         }
 
+        // Client-side cues
         playClientSound(client, SoundEvents.BLOCK_NOTE_BLOCK_PLING, 3f);
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        sendRunToast();
 
-        scheduler.schedule(() -> client.execute(() -> {
-            if (client.world != null) {
-                client.world.disconnect();
-                client.disconnect(new TransparentLevelLoadingScreen());
-            }
+        // World creation
+        scheduler.schedule(() -> tryStartWorld(newSeed), 2000, TimeUnit.MILLISECONDS);
+    }
 
+    private static void tryStartWorld(boolean newSeed) {
+        if (futureWorldInfo == null) {
+            scheduler.schedule(() -> tryStartWorld(newSeed), 50, TimeUnit.MILLISECONDS);
+            return;
+        }
+
+        client.execute(() -> {
             if (newSeed) {
                 setWorldInfo();
+            }
+
+            if (client.world != null) {
+                client.world.disconnect();
+                client.disconnect(new DummyLevelLoadingScreen());
             }
 
             String worldName = getFileName();
@@ -94,9 +99,7 @@ public class WorldUtil extends Screen {
             );
 
             client.method_29607(worldName, levelInfo, RegistryTracker.create(), generatorOptions);
-        }), 2000, TimeUnit.MILLISECONDS);
-
-        scheduler.shutdown();
+        });
     }
 
     public static void playClientSound(MinecraftClient client, SoundEvent soundEvent, float pitch) {
@@ -104,7 +107,6 @@ public class WorldUtil extends Screen {
     }
 
     public static void enableCheats() {
-        MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
         MinecraftServer server = client.getServer();
         
@@ -125,7 +127,7 @@ public class WorldUtil extends Screen {
     }
 
     public static void checkCheats(ConfirmButtonWidget widget) {
-        MinecraftClient client = MinecraftClient.getInstance();
+
         MinecraftServer server = client.getServer();
 
         if (server == null) {
@@ -146,15 +148,13 @@ public class WorldUtil extends Screen {
         }
     }
 
-    public static void sendSeedToast() {
-        MinecraftClient client = MinecraftClient.getInstance();
-
+    public static void sendRunToast() {
         client.getToastManager().add(
                 SystemToast.method_29047(
                         client,
                         SystemToast.Type.TUTORIAL_HINT,
                         new LiteralText("Ranked Practice"),
-                        new LiteralText("Starting New Speedrun")
+                        new LiteralText("Starting New Speedrun...")
                 )
         );
     }

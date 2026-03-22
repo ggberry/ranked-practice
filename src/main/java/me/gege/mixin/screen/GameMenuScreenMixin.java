@@ -122,10 +122,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                         1000,
                         "New Seed",
                         w -> WorldUtil.createWorldInGame(true),
-                        w -> {
-                            WorldUtil.checkTypeEnabled((ConfirmButtonWidget) w);
-                            WorldUtil.sendSeedToast();
-                        }
+                        w -> WorldUtil.checkTypeEnabled((ConfirmButtonWidget) w)
                 )
         );
 
@@ -154,7 +151,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                         RANKED_SETTINGS_LOCATION,
                         20,
                         40,
-                        widget -> this.client.openScreen(new ConfigScreen(this.client.currentScreen)),
+                        widget -> this.client.openScreen(new ConfigScreen()),
                         new LiteralText("Ranked Configurations")
                 )
         );

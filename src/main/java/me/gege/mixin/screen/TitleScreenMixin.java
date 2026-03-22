@@ -41,10 +41,7 @@ public abstract class TitleScreenMixin extends Screen {
         this.addButton(
                 new ConfirmButtonWidget(this.width / 2 - 100, y + spacingY, 200, 20, 0, "Practice",
                         w -> WorldUtil.createWorld(true),
-                        w -> {
-                            WorldUtil.checkTypeEnabled((ConfirmButtonWidget) w);
-                            WorldUtil.sendSeedToast();
-                        }
+                        w -> WorldUtil.checkTypeEnabled((ConfirmButtonWidget) w)
                 )
         );
 
@@ -60,7 +57,7 @@ public abstract class TitleScreenMixin extends Screen {
                         RANKED_SETTINGS_LOCATION,
                         20,
                         40,
-                        buttonWidget -> this.client.openScreen(new ConfigScreen(this.client.currentScreen)),
+                        buttonWidget -> this.client.openScreen(new ConfigScreen()),
                         new LiteralText("Ranked Configurations")
                 )
         );

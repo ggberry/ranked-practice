@@ -16,10 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static me.gege.util.SeedUtil.*;
-import static me.gege.util.SeedUtil.seedType;
 
 /**
  * Requests random seeds from API
@@ -27,18 +25,22 @@ import static me.gege.util.SeedUtil.seedType;
 
 public class SeedManager {
     private static final String API_URL = "https://ranked-practice.onrender.com/";
-    private static CompletableFuture<WorldInfo> worldInfoFuture;
+    public static volatile WorldInfo futureWorldInfo;
 
     public static void preloadWorldInfo() {
-        worldInfoFuture = CompletableFuture.supplyAsync(SeedManager::generateWorldInfo);
+        futureWorldInfo = null;
+
+        new Thread(() -> {
+            futureWorldInfo = generateWorldInfo();
+        }).start();
     }
 
     public static void setWorldInfo() {
-        if (worldInfoFuture == null) {
+        if (futureWorldInfo == null) {
             preloadWorldInfo();
         }
 
-        WorldInfo info = worldInfoFuture.join();
+        WorldInfo info = futureWorldInfo;
 
         DragonUtil.init();
 

@@ -2,6 +2,7 @@ package me.gege.mixin.screen;
 
 import me.gege.screen.ConfigScreen;
 import me.gege.screen.widget.ConfirmButtonWidget;
+import me.gege.updater.AutoUpdater;
 import me.gege.util.WorldUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -11,7 +12,11 @@ import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.MathHelper;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,8 +29,26 @@ import static me.gege.util.GeneralUtil.RANKED_SETTINGS_LOCATION;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
+    @Shadow private long backgroundFadeStart;
+
+    @Shadow @Final private boolean doBackgroundFade;
+
     protected TitleScreenMixin(Text title) {
         super(title);
+    }
+
+    @Inject(at = @At("HEAD"), method = "render")
+    private void render(CallbackInfo ci) {
+        if (!this.doBackgroundFade) {
+            return;
+        }
+
+        float timeDelta = (float)(Util.getMeasuringTimeMs() - this.backgroundFadeStart) / 1000.0F;
+        float alpha = MathHelper.clamp(timeDelta - 1.0F, 0.0F, 1.0F);
+
+        if (alpha == 1) {
+            AutoUpdater.checkUpdate();
+        }
     }
 
     @Inject(at = @At("HEAD"), method = "initWidgetsNormal", cancellable = true)

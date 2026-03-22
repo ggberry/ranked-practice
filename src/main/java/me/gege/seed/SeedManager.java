@@ -29,10 +29,7 @@ public class SeedManager {
 
     public static void preloadWorldInfo() {
         futureWorldInfo = null;
-
-        new Thread(() -> {
-            futureWorldInfo = generateWorldInfo();
-        }).start();
+        new Thread(() -> futureWorldInfo = generateWorldInfo()).start();
     }
 
     public static void setWorldInfo() {

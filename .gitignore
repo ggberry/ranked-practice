@@ -1,10 +1,9 @@
 /.github
 
-# secret
-/src/main/resources/seed-url.txt
-/src/main/java/me/gege/seed/filter
-/src/main/java/me/gege/command
-/src/main/java/me/gege/seed/util/SeedFilter.java
+# extras
+watcher-stdio.log
+.gitattributes
+libs
 
 # gradle
 

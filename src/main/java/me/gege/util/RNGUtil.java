@@ -343,10 +343,10 @@ public class RNGUtil {
         StructureFeature<?> templeFeature = StructureFeature.DESERT_PYRAMID;
 
         BlockPos pos = entity.getBlockPos();
-        BlockPos bastion = bastionFeature.method_27218(StructuresConfig.DEFAULT_STRUCTURES.get(bastionFeature), world.getSeed(), new ChunkRandom(), entity.chunkX, entity.chunkZ).getCenterBlockPos();
+        BlockPos bastion = bastionFeature.method_27218(StructuresConfig.DEFAULT_STRUCTURES.get(bastionFeature), world.getSeed(), new ChunkRandom(), entity.chunkX, entity.chunkZ).getCenterBlockPos().add(0, pos.getY(), 0);
         BlockPos temple = templeFeature.method_27218(StructuresConfig.DEFAULT_STRUCTURES.get(templeFeature), world.getSeed(), new ChunkRandom(), entity.chunkX, entity.chunkZ).getCenterBlockPos();
 
-        if ((rangeFromStructure(pos, bastion) < 75) || (rangeFromStructure(pos, temple) < 50)) {
+        if (rangeFromStructure(pos, bastion) < 100 || rangeFromStructure(pos, temple) < 50) {
             cir.setReturnValue(false);
         }
     }

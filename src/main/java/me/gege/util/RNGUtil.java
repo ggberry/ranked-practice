@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 
 import static me.gege.util.SeedUtil.isPracticing;
+import static me.gege.util.SeedUtil.sourcePos;
 import static net.minecraft.entity.mob.MobEntity.canMobSpawn;
 
 public class RNGUtil {
@@ -339,23 +340,24 @@ public class RNGUtil {
             return;
         }
 
-        StructureFeature<?> bastionFeature = StructureFeature.BASTION_REMNANT;
-        StructureFeature<?> templeFeature = StructureFeature.DESERT_PYRAMID;
+        BlockPos blockPos = entity.getBlockPos();
+        ChunkPos chunkPos = new ChunkPos(blockPos);
+        StructureStart<?> bastion = world.getStructureAccessor().getStructureStart(ChunkSectionPos.from(chunkPos, 0), StructureFeature.BASTION_REMNANT, world.getChunk(blockPos));
+        StructureStart<?> temple = world.getStructureAccessor().getStructureStart(ChunkSectionPos.from(chunkPos, 0), StructureFeature.DESERT_PYRAMID, world.getChunk(blockPos));
 
-        BlockPos pos = entity.getBlockPos();
-        BlockPos bastion = bastionFeature.method_27218(StructuresConfig.DEFAULT_STRUCTURES.get(bastionFeature), world.getSeed(), new ChunkRandom(), entity.chunkX, entity.chunkZ).getCenterBlockPos().add(0, pos.getY(), 0);
-        BlockPos temple = templeFeature.method_27218(StructuresConfig.DEFAULT_STRUCTURES.get(templeFeature), world.getSeed(), new ChunkRandom(), entity.chunkX, entity.chunkZ).getCenterBlockPos();
-
-        if (rangeFromStructure(pos, bastion) < 100 || rangeFromStructure(pos, temple) < 50) {
+        if ((bastion != null && expandBox(bastion.getBoundingBox(), 40).contains(blockPos)) || (temple != null && expandBox(temple.getBoundingBox(), 40).contains(blockPos))) {
             cir.setReturnValue(false);
         }
     }
 
-    public static double rangeFromStructure(BlockPos entityPos, BlockPos structurePos) {
-        int dx = entityPos.getX() - structurePos.getX();
-        int dy = entityPos.getY() - structurePos.getY();
-        int dz = entityPos.getZ() - structurePos.getZ();
-
-        return Math.sqrt(dx*dx + dy*dy + dz*dz);
+    public static BlockBox expandBox(BlockBox box, int size) {
+        return new BlockBox(
+                box.minX - size,
+                box.minY - size,
+                box.minZ - size,
+                box.maxX + size,
+                box.maxY + size,
+                box.maxZ + size
+        );
     }
 }

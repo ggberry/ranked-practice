@@ -14,8 +14,6 @@ import net.minecraft.world.World;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static me.gege.util.SeedUtil.overworldSeed;
-
 public class GeneralUtil {
     public static final Identifier RANKED_SETTINGS_LOCATION = new Identifier(RankedPractice.MOD_ID, "textures/gui/ranked_settings.png");
 

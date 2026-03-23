@@ -2,12 +2,12 @@ package me.gege.mixin.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import me.gege.util.GeneralUtil;
-import me.gege.util.SeedUtil;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.SeedCommand;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.*;
-import net.minecraft.util.Formatting;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

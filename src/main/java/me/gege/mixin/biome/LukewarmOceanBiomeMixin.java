@@ -2,7 +2,6 @@ package me.gege.mixin.biome;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.LukewarmOceanBiome;
-import net.minecraft.world.biome.OceanBiome;
 import net.minecraft.world.gen.GenerationStep;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

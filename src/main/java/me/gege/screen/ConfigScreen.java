@@ -2,16 +2,13 @@ package me.gege.screen;
 
 import me.gege.config.ConfigManager;
 import me.gege.config.ModConfigs;
+import me.gege.screen.widget.UpdateCheckboxWidget;
 import me.gege.seed.SeedManager;
 import me.gege.util.SeedUtil;
-import me.gege.screen.widget.UpdateCheckboxWidget;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
-
-import static me.gege.util.SeedUtil.updateSeedButton;
 
 public class ConfigScreen extends Screen {
     public ConfigScreen() {

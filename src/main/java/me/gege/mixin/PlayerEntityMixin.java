@@ -1,8 +1,8 @@
 package me.gege.mixin;
 
 import me.gege.RankedPractice;
-import me.gege.data.PlayerEntityData;
 import me.gege.config.BarterConfigs;
+import me.gege.data.PlayerEntityData;
 import me.gege.util.DragonUtil;
 import me.gege.util.GeneralUtil;
 import me.gege.util.SeedUtil;

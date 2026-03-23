@@ -1,7 +1,6 @@
 package me.gege.mixin.biome;
 
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.DeepColdOceanBiome;
 import net.minecraft.world.biome.DeepWarmOceanBiome;
 import net.minecraft.world.gen.GenerationStep;
 import org.spongepowered.asm.mixin.Mixin;

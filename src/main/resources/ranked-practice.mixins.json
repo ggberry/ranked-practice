@@ -5,12 +5,12 @@
   "mixins": [
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
-    "biome.WarmOceanBiomeMixin",
     "biome.DeepColdOceanBiomeMixin",
     "biome.DeepOceanBiomeMixin",
     "biome.DeepWarmOceanBiomeMixin",
     "biome.LukewarmOceanBiomeMixin",
     "biome.OceanBiomeMixin",
+    "biome.WarmOceanBiomeMixin",
     "command.SeedCommandMixin",
     "dragon.EnderDragonEntityMixin",
     "dragon.HoldingPatternPhaseMixin",

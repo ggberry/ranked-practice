@@ -31,7 +31,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static me.gege.seed.SeedManager.*;
+import static me.gege.seed.SeedManager.futureWorldInfo;
+import static me.gege.seed.SeedManager.setWorldInfo;
 import static me.gege.util.SeedUtil.overworldSeed;
 
 public class WorldUtil extends Screen {

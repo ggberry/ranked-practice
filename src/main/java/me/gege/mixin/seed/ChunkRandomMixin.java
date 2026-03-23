@@ -1,6 +1,5 @@
 package me.gege.mixin.seed;
 
-import me.gege.RankedPractice;
 import me.gege.util.SeedUtil;
 import net.minecraft.world.gen.ChunkRandom;
 import org.spongepowered.asm.mixin.Mixin;

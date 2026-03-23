@@ -1,18 +1,16 @@
 package me.gege.worldgen;
 
 import com.mojang.serialization.Codec;
-import me.gege.util.SeedUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.biome.source.VanillaLayeredBiomeSource;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.carver.UnderwaterRavineCarver;
 
-import java.util.*;
+import java.util.BitSet;
+import java.util.Random;
 import java.util.function.Function;
 
 import static me.gege.util.SeedUtil.*;

@@ -1,12 +1,11 @@
 package me.gege.event;
 
-import me.gege.util.DragonUtil;
 import me.gege.util.SeedUtil;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 
-import static me.gege.util.SeedUtil.*;
+import static me.gege.util.SeedUtil.isPracticing;
 
 public class ServerLifecycleHandler implements ServerLifecycleEvents.ServerStarted {
     @Override

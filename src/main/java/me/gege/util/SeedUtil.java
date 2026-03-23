@@ -2,8 +2,6 @@ package me.gege.util;
 
 import me.gege.config.ConfigManager;
 import me.gege.config.ModConfigs;
-import me.gege.seed.SeedManager;
-import me.gege.seed.WorldInfo;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.server.world.ServerWorld;
@@ -24,8 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-
-import static me.gege.util.SeedUtil.notOceanSeed;
 
 public class SeedUtil {
     private static final HashMap<String, String> seedTypes;

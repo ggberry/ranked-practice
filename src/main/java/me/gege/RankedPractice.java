@@ -4,7 +4,6 @@ import me.gege.config.ConfigManager;
 import me.gege.event.ModEvents;
 import me.gege.seed.SeedManager;
 import me.gege.timer.ModTimer;
-import me.gege.updater.AutoUpdater;
 import me.gege.worldgen.ModCarvers;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -19,7 +18,6 @@ public class RankedPractice implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		AutoUpdater.getLatestInfo();
 		SeedManager.preloadWorldInfo();
 		ConfigManager.load();
 

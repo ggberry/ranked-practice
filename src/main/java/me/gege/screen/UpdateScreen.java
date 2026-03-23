@@ -44,7 +44,6 @@ public class UpdateScreen extends Screen {
                     new ButtonWidget(this.width / 2 - 100, this.height / 2, 200, 20, new LiteralText("Close This Instance"), w -> {
                         assert client != null;
 
-                        Runtime.getRuntime().addShutdownHook(new Thread(AutoUpdater::deleteOld));
                         client.scheduleStop();
                     })
             );

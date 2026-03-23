@@ -48,13 +48,26 @@ public class AutoUpdater {
     }
 
     public static void deleteOld() {
-        String name = "ranked-practice-" + RankedPractice.MOD_VERSION + ".jar";
-        File oldFile = new File("mods/" + name);
+        if (!isLatest()) {
+            return;
+        }
 
-        if (oldFile.exists() && oldFile.delete()) {
-            RankedPractice.LOGGER.info("Successfully deleted old version: {}", name);
-        } else {
-            RankedPractice.LOGGER.warn("Could not delete old version: {}", name);
+        File modsDir = new File("mods");
+
+        File[] files = modsDir.listFiles((dir, name) ->
+                name.startsWith("ranked-practice-") &&
+                        name.endsWith(".jar") &&
+                        !name.equals("ranked-practice-" + RankedPractice.MOD_VERSION + ".jar")
+        );
+
+        if (files == null) return;
+
+        for (File file : files) {
+            if (file.delete()) {
+                RankedPractice.LOGGER.info("Deleted old version: {}", file.getName());
+            } else {
+                RankedPractice.LOGGER.warn("Failed to delete: {}", file.getName());
+            }
         }
     }
 
